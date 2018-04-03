@@ -1,0 +1,21 @@
+@charset "UTF-8";
+#contrainer {
+	width: 1000px;
+}
+#con {
+	margin: auto;
+	width: 1000px;
+}
+#con #header {
+	margin: auto;
+	height: 200px;
+	background-color: rgba(137,246,185,1.00);
+}
+#con #main {
+	height: 500px;
+	background-color: rgba(85,144,236,1.00);
+}
+#con #foot {
+	height: 100px;
+	background-color: rgba(243,245,131,1.00);
+}

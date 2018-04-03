@@ -1,0 +1,29 @@
+@charset "UTF-8";
+#AddSubmit {
+	width: 800px;
+	height: auto;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+}
+#user {
+	width: 800px;
+	height: 300px;
+	outline-color: black;
+	outline-style: solid;
+	outline-width: 1px;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+	margin: auto;
+}
+#showUser {
+	width: 800px;
+	height: 30px;
+	background: silver;
+}
+#addTeacher {
+	width: 800px;
+	height: 500px;
+	
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+}

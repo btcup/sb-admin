@@ -1,0 +1,39 @@
+@charset "UTF-8";
+header, section, footer{
+	width: 1024px;
+	height: auto;
+	margin : auto;
+	margin-top: 4px;
+}
+header {
+	background-color: silver;
+}
+aside{
+	float: left;
+	width: 20%;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+}
+article{
+	float: right;
+	width: 78%;
+}
+article, aside{
+	height: auto;
+	outline-color: black;
+	outline-style: solid;
+	outline-width: 1px;
+}
+footer {
+	background-color: silver;
+	clear: both;
+	position: relative;
+	top: 15px;
+}
+header, footer, aside, article {
+	outline-color: black;
+	outline-style: solid;
+	outline-width: 1px;
+}
+	
+	

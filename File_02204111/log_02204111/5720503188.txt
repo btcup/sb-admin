@@ -1,0 +1,11 @@
+
+27/04/2558 00:49:32	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Connected	
+27/04/2558 00:49:34	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   SshClient.exe  chrome.exe  	
+27/04/2558 00:49:56	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   nusb3mon.exe  cpe17antiautorun1400.exe  wlanext.exe  	
+27/04/2558 00:50:07	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   notepad.exe  nusb3mon.exe  cpe17antiautorun1400.exe  wlanext.exe  	
+27/04/2558 00:50:18	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   notepad.exe  nusb3mon.exe  cpe17antiautorun1400.exe  wlanext.exe  	
+27/04/2558 00:50:29	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   nusb3mon.exe  cpe17antiautorun1400.exe  wlanext.exe  	
+27/04/2558 00:50:40	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   nusb3mon.exe  cpe17antiautorun1400.exe  wlanext.exe  	
+27/04/2558 00:50:51	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   nusb3mon.exe  cpe17antiautorun1400.exe  wlanext.exe  	
+27/04/2558 15:23:40	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Connected	
+27/04/2558 15:23:42	158.108.207.93	kittisak-PC	20:7C:8F:59:9E:E7	5720503188	714	1	STATUS:Established   chrome.exe  	

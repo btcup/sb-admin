@@ -1,0 +1,45 @@
+@charset "UTF-8";
+header, section, footer{
+	width: 1024px;
+	height: auto;
+	margin: auto;
+}
+header {
+	background-color: gray;
+}
+section {
+	background-color: silver;
+}
+aside {
+	float: left;
+	width: 20%;
+}
+article {
+	float: right;
+	width: 819px;
+	height: 500px;
+	background-color: rgba(145,174,251,1.00);
+}
+footer {
+	background-color: gray;
+	clear: both;
+	position: relative;
+}
+body {
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 9pt;
+}
+#mainiframe {
+	float: right;
+	width: 819px;
+	height: 500px;
+	border: 0px;
+	background-color: gray;
+}
+#mainShow {
+	float: right;
+	width: 819px;
+	height: 700px;
+	border: 0px;
+	background-color: silver;
+}

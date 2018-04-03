@@ -1,0 +1,51 @@
+@charset "UTF-8";
+/* CSS Document */
+
+#contrainer {
+	margin: auto;
+	width: 1024px;
+}
+#contrainer #header {
+	height: 200px;
+	background-color: rgba(202,199,199,1.00);
+}
+#contrainer #main {
+	background-color: rgba(143,250,233,1.00);
+}
+#contrainer #foot {
+	height: 50px;
+	background-color: rgba(192,190,190,1.00);
+}
+#contrainer #main #manu {
+	height: auto;
+	width: 250px;
+	background-color: rgba(158,158,158,1.00);
+	float: left;
+	margin-right: 1px;
+}
+#contrainer #main #right {
+	width: 770px;
+	height: auto;
+	background-color: rgba(84,82,82,1.00);
+	float: right;
+	margin-left: 1px;
+}
+#contrainer #main .clear {
+	clear: both;
+	background-color: rgba(143,250,233,1.00);
+}
+#loginright {
+	width: 500px;
+	background-color: rgba(157,165,248,1.00);
+	height: 500px;
+}
+#loginmain {
+	width: 770px;
+	height: 500px;
+	background-color: rgba(202,196,196,1.00);
+}
+#formlogin {
+	width: 770px;
+	height: auto;
+	background-color: rgba(252,227,227,1.00);
+}
