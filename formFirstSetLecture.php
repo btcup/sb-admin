@@ -14,7 +14,9 @@ if (isset($_POST['k_y_s']))
 else
     $key_year_subject = $_GET['k_y_s'];
 ?>
-
+<div class="card-header">
+    <a class="fa fa-table"> จัดชุดข้อสอบทฤษฎี </a>
+</div>
 <div id="mainUser" class="container" >
     <?
     $sql = "SELECT * FROM year_subject WHERE key_year_subject = '$key_year_subject'";
@@ -72,7 +74,7 @@ ORDER BY sub_semester DESC ";
     $chk_num = mysqli_num_rows($result);
     if ($chk_num != 0) {
         ?>
-        <table class="table table-striped" style="width: 1100px; margin: auto;">
+        <table class="table table-striped" id="TB6" style="width: 1100px; margin: auto;">
             <thead>
             <tr>
                 <th style="width: 150px; text-align: center;">Sub-semester</th>
@@ -81,6 +83,8 @@ ORDER BY sub_semester DESC ";
                 <th style="width: 200px; text-align: center;">จำนวนข้อ/ชุด</th>
                 <th style="margin: auto; text-align: center;">Action</th>
             </tr>
+            </thead>
+            <tbody>
             <?
             while ($row = mysqli_fetch_array($result)) {
 
@@ -111,7 +115,7 @@ and numofexam = '$round'
                 echo '</tr>';
             }
             ?>
-            </thead>
+            </tbody>
         </table>
         <?
         if ($sub_semester == "midterm") {
@@ -212,6 +216,15 @@ and numofexam = '$round'
         line-height: 20px;
     }
 </style>
+<script>
+
+    var tb6 = null;
+
+
+    tb3= $('#TB6').DataTable();
+
+
+</script>
 <br><br><br><br><br><br><br><br><br><br><br><br>
 </body>
 </html>

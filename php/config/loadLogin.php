@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Untitled Document</title>
+<title>Student</title>
 <script>
 function loadLogin(filename, div){
     var hr = new XMLHttpRequest();

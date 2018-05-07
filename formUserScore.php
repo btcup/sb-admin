@@ -21,20 +21,27 @@ session_start();
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     <!-- Custom styles for this template ***left bar***-->
     <link href="css/sb-admin.css" rel="stylesheet">
-
-
-
-
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <!--previous next-->
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
     <!--scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
     <!--filter datatable-->
-
-
-
+    <script src="js/sb-admin-datatables.min.js"></script>
+    <!--chart-->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-switch.js"></script>
     <script src="js/loadForm.js"></script>
+    <script src="js/loadForm2.js"></script>
     <script src="js/changeActive.js"></script>
+
 
 
 </head>
@@ -61,27 +68,27 @@ include("php/queryScore.php");
         </div>
         <div id="mainUser" class="label-info">
             <!-- คะแนนเก็บ -->
-            <div class="card mb-3 out" style="background:#61c7fa;">
-                <div class="card-header"><i class="fa fa-table"></i> คะแนนเก็บ</div>
-
-                <div id="secscore" class="label-info">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable3" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th class="high" width="3%">#</th>
-                                    <th class="high"> ปี / ภาคการศึกษา / วิชา</th>
-                                    <th class="high" width="13%">หมู่เรียน</th>
-                                    <th class="high" width="15%">การจัดการ</th>
-                                </tr>
-                                <?  querySecScore($database); ?>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--            <div class="card mb-3 out" style="background:#61c7fa;">-->
+<!--                <div class="card-header"><i class="fa fa-table"></i> คะแนนเก็บ</div>-->
+<!---->
+<!--                <div id="secscore" class="label-info">-->
+<!--                    <div class="card-body">-->
+<!--                        <div class="table-responsive">-->
+<!--                            <table class="table table-bordered" id="dataTable3" cellspacing="0">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th class="high" width="3%">#</th>-->
+<!--                                    <th class="high"> ปี / ภาคการศึกษา / วิชา</th>-->
+<!--                                    <th class="high" width="13%">หมู่เรียน</th>-->
+<!--                                    <th class="high" width="15%">การจัดการ</th>-->
+<!--                                </tr>-->
+<!--                                --><?//  querySecScore($database); ?>
+<!--                                </thead>-->
+<!--                            </table>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <!-- คะแนนสอบทฤษฎี -->
             <div class="card mb-3 out" style="background:#7afab6;">
@@ -89,7 +96,7 @@ include("php/queryScore.php");
                 <div id="lecture" class="label-info">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable2" cellspacing="0">
+                            <table class="table table-bordered" id="tablescoreL" cellspacing="0">
                                 <thead>
                                 <tr>
                                     <th class="high" width="3%">#</th>
@@ -99,8 +106,10 @@ include("php/queryScore.php");
                                     <th class="high" width="13%">Sub-Semester</th>
                                     <th class="high" width="15%">การจัดการ</th>
                                 </tr>
-                                <?  queryLecture($database); ?>
                                 </thead>
+                                <tbody>
+                                <?  queryLecture($database); ?>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -113,7 +122,7 @@ include("php/queryScore.php");
             <div id="practice" class="label-info">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable1" cellspacing="0">
+                        <table class="table table-bordered" id="tablescoreP" cellspacing="0">
                             <thead>
                             <tr>
                                 <th class="high" width="3%">#</th>
@@ -124,8 +133,10 @@ include("php/queryScore.php");
                                 <th class="high" width="13%">Sub-Semester</th>
                                 <th class="high" width="15%">การจัดการ</th>
                             </tr>
-                            <? queryPractice($database); ?>
                             </thead>
+                            <tbody>
+                            <? queryPractice($database); ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -151,7 +162,7 @@ include("inclu_LogoutModel.php");
 ?>
 <!-- Bootstrap core JavaScript-->
 
-<script src="vendor/jquery/jquery.min.js"></script>
+<!--<script src="vendor/jquery/jquery.min.js"></script>-->
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
 <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -160,9 +171,18 @@ include("inclu_LogoutModel.php");
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin.min.js"></script>
 <!-- Custom scripts for this page-->
+<script>
+    var tbscoreL = null;
+    var tbscoreP = null;
 
+    $(document).ready(function () {
+        tbscoreL = $('#tablescoreL').DataTable();
+        tbscoreP = $('#tablescoreP').DataTable();
+        // tb2 = $('#TB2').DataTable();
+        //setTable1();
 
-
+    });
+</script>
 <style>
     .table {
         width: 100%;

@@ -12,7 +12,7 @@ include("config/connectDB.php");
 $key_year_subject = $_POST['key_year_subject'];
 $id_teacher = $_SESSION['id_teacher'];
 ?>
-<form class="form-inline" role="form">
+<form class="form-inline" role="form" style=" width: 1100px; margin: auto">
     <div>
         <label class="control-label">
             <select id="detail" class="form-control" style="width: 1000px">
@@ -20,7 +20,7 @@ $id_teacher = $_SESSION['id_teacher'];
                 <?
                 $i = 0;
                 $sql = "SELECT * FROM set_practice_exam WHERE id_teacher = '$id_teacher' and key_year_subject = '$key_year_subject'
-                  GROUP BY numofexam ORDER BY key_year_subject DESC,numofexam ASC ,sub_semester DESC ,article_exam ASC ,set_exam ASC ";
+                  GROUP BY numofexam,sub_semester ORDER BY key_year_subject DESC,numofexam ASC ,sub_semester DESC ,article_exam ASC ,set_exam ASC ";
                 $result = mysqli_query($database, $sql);
 
                 $rowpractice = mysqli_num_rows($result);
@@ -64,8 +64,8 @@ $id_teacher = $_SESSION['id_teacher'];
 
     <div class="form-inline">
         <label class="control-label"><span class=" text-danger">Sub-semester:  </span></label>
-        <label><input type="radio" id="rsub" name="rsub" value="midterm" checked> Mid-term </label>
-        <label><input type="radio" id="rsub" name="rsub" value="final" disabled> Final</label>
+        <label><input type="radio" id="rsub" name="rsub" value="midterm" > Mid-term </label>
+        <label><input type="radio" id="rsub" name="rsub" value="final" > Final</label>
     </div>
 </form>
 <form class="form-inline" role="form">
@@ -75,13 +75,13 @@ $id_teacher = $_SESSION['id_teacher'];
     </div>
     <div class="form-group">
         <label for="">จำนวนรอบ: </label>
-        <input type="text" onChange="chkNum3(this,'')" class="form-control" id="num_round"
+        <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="num_round"
                placeholder="กรุณากรอกจำนวนรอบ">
     </div>
     <input type="button" id="sbset" name="sbset" value="ตกลง"
            onClick="geneRound2('geneNumRound.php','result','<? echo $key_year_subject; ?>')" class="btn btn-info"
            style=" width: 150px;">
-    <div id="result"></div>
+    <div id="result" class="form-horizontal" role="form" style="width: 1000px; margin: auto;"></div>
     <br>
 </body>
 </html>

@@ -1,12 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <script src="js/loadForm.js"></script>
+
 <title>Untitled Document</title>
 </head>
 
@@ -20,7 +15,7 @@ $sub_semester = $_POST['sub_semester'];
 <br>
 <p>รายชื่อนิสิตที่ยังไม่มีห้องสอบ</p>
 <br>
-<a href="#" title="ย้อนกลับ" onClick="loadSetPExam('formFirstRound.php','mainUser','<? echo $key_year_subject; ?>')" ><span class="glyphicon glyphicon-arrow-left"></span>BACK</span></a>
+<a href="#" title="ย้อนกลับ" onClick="reloadPage_2('formFirstRound.php','mainUser','<? echo $key_year_subject; ?>')" ><span class="glyphicon glyphicon-arrow-left"></span>BACK</span></a>
 <br>
 <div id="showRequest"></div>
 <br>

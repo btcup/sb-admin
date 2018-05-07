@@ -5,6 +5,7 @@ $sub_semester = $_POST['sub_semester'];
 $date = $_POST['date'];
 $round_number = $_POST['round_number'];
 $num_room = $_POST['num_room'];
+$num =$_POST['num'];
 //echo $key_year_subject." ".$sub_semester." ".$date." ".$round_number." ".$num_room." ";
 
 $sql = "SELECT * FROM round_exam WHERE key_year_subject = '$key_year_subject' and sub_semester = '$sub_semester' 
@@ -27,7 +28,7 @@ if($first_room == "")
 	$amount = $_POST['amount_1'];
 	$sql = "UPDATE round_exam SET room = '$name',amount = '$amount',remaining = '$amount' 
 	WHERE key_year_subject = '$key_year_subject' and sub_semester = '$sub_semester' 
-	and date = '$date' and round_number = '$round_number'";
+	and date = '$date' and round_number = '$round_number' and numofexam ='$num'";
 	$result = mysqli_query($database,$sql);
 	$success++;
 	
@@ -42,8 +43,8 @@ if($first_room == "")
 		$chk_room = mysqli_num_rows($result);
 		if($chk_room == 0)
 		{
-			$sql = "INSERT INTO round_exam (round_number,date,time_start,time_end,room,amount,remaining,sub_semester,key_year_subject)
-			VALUES ('$round_number','$date','$time_start','$time_end','$name','$amount','$amount','$sub_semester','$key_year_subject')";
+			$sql = "INSERT INTO round_exam (round_number,date,time_start,time_end,room,amount,remaining,sub_semester,key_year_subject,numofexam)
+			VALUES ('$round_number','$date','$time_start','$time_end','$name','$amount','$amount','$sub_semester','$key_year_subject','$num')";
 			$result = mysqli_query($database,$sql);
 			$success++;
 			
@@ -65,8 +66,8 @@ else
 		$chk_room = mysqli_num_rows($result);
 		if($chk_room == 0)
 		{
-			$sql = "INSERT INTO round_exam (round_number,date,time_start,time_end,room,amount,remaining,sub_semester,key_year_subject)
-			VALUES ('$round_number','$date','$time_start','$time_end','$name','$amount','$amount','$sub_semester','$key_year_subject')";
+			$sql = "INSERT INTO round_exam (round_number,date,time_start,time_end,room,amount,remaining,sub_semester,key_year_subject,numofexam)
+			VALUES ('$round_number','$date','$time_start','$time_end','$name','$amount','$amount','$sub_semester','$key_year_subject','$num')";
 			$result = mysqli_query($database,$sql);
 			$success++;
 			

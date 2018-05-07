@@ -8,8 +8,8 @@
 <body>
 <?
 include("config/connectDB.php");
-$key_sec = $_POST['key_sec'];
-$key_exam = $_POST['key_exam'];
+$key_sec = $_GET['key_sec'];
+$key_exam = $_GET['key_exam'];
 
 $sql = "SELECT * FROM set_score_gather_dynamic WHERE key_set_gather = '$key_exam'";
 $result = mysqli_query($database,$sql);

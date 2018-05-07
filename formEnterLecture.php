@@ -58,10 +58,10 @@
                 <div class="form-group">
                     <label for="txset">รหัสนิสิต: </label>
                     <input type="text" class="form-control" id="txsearch" placeholder="กรอกรหัสนิสิต..."
-                           onkeyPress="searchStudentById(event,'searchScoreLecture.php','tableLectureScore','<? echo $key_exam; ?>','<? echo $key_year_subject; ?>')"/>
+                           onkeyPress="searchStudentById_2(event,'searchScoreLecture.php','tableLectureScore','<? echo $key_exam; ?>','<? echo $key_year_subject; ?>')"/>
                 </div>
                 <input type="button" id="sbsearch" name="sbsearch" value="ค้นหา"
-                       onClick="searchScoreLecture('searchScoreLecture.php','tableLectureScore','<? echo $key_exam; ?>','<? echo $key_year_subject; ?>')"
+                       onClick="searchScoreLecture_2('searchScoreLecture.php','tableLectureScore','<? echo $key_exam; ?>','<? echo $key_year_subject; ?>')"
                        class="btn btn-primary" style=" width: 150px;">
             </form>
             <br>

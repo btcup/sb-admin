@@ -37,7 +37,7 @@ $old_name_score = $row2['nameScore'];
         </div>
         <div class="form-group">
             <label for="">คะแนนดิบ :  </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="fullscore" name="fullscore" placeholder="กรุณากรอกคะแนน" value="<? echo $old_full_score; ?>" style="width: 150px;">
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="fullscore" name="fullscore" placeholder="กรุณากรอกคะแนน" value="<? echo $old_full_score; ?>" style="width: 150px;">
         </div>
         <input type="hidden" id="id_teacher" name="id_teacher"
                value="<? echo $id_teacher; ?>"/>
@@ -47,7 +47,7 @@ $old_name_score = $row2['nameScore'];
                value="<? echo $key_gather; ?>"/>
 
         <input type="submit" id="sbset" name="sbset" value="ตกลง" class="btn btn-primary btn-block" style=" width: 150px;">
-        <input type="button" id="sbcancle" name="sbcancle" value="ยกเลิก" onClick="loadSetPExam('formSetGather.php','divview','<? echo $key_year_subject; ?>')" class="btn btn-danger" style=" width: 150px;">
+        <input type="button" id="sbcancle" name="sbcancle" value="ยกเลิก" onClick="reloadPage_2('formSetGather.php','divview','<? echo $key_year_subject; ?>')" class="btn btn-danger" style=" width: 150px;">
     </form>
 </form>
 

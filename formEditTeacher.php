@@ -124,7 +124,7 @@ $row = mysqli_fetch_assoc($result);
         <label class="col-sm-4 control-label"></label>
         <div class="col-sm-4">
             <input type="button" class="btn btn-primary btn-block" id="sbTeach" name="sbTeach" value="แก้ไขข้อมูล"
-                   onClick="updateTeacher('php/updateTeacher.php','<? echo $row['id_teacher']; ?>','<? echo $row['username']; ?>')">
+                   onClick="updateTeacher_2('php/updateTeacher.php','<? echo $row['id_teacher']; ?>','<? echo $row['username']; ?>')">
         </div>
         <div class="col-sm-4">
             <input type="button" onClick= "location.href='formManageTeacher.php'" class="btn btn-danger btn-block" id="rsTeach" name="rsReset" value="ยกเลิก">

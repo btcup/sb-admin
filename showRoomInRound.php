@@ -27,6 +27,7 @@ if(isset($_POST['key_year_subject']))
 	$sub_semester = $_POST['sub_semester'];
 	$date = $_POST['date'];
 	$round_number = $_POST['round_number'];
+	$num = $_POST['num'];
 }
 else
 {
@@ -34,6 +35,7 @@ else
 	$sub_semester = $_GET['sub_semester'];
 	$date = $_GET['date'];
 	$round_number = $_GET['round_number'];
+	$num = $_GET['num'];
 }
 
 $sql = "SELECT * FROM year_subject WHERE key_year_subject = '$key_year_subject'";
@@ -61,7 +63,7 @@ $row = mysqli_fetch_assoc($result);
 <p>จัดรอบการสอบ: <? echo $y_se_s." ".$sub_semester; ?></p>
 <br> <br>
 
-<a href="#" title="ย้อนกลับ" onClick="editRound2('formEditRound.php','mainUser','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $date; ?>')">
+<a href="#" title="ย้อนกลับ" onClick="editRound_2('formEditRound.php','mainUser','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $date; ?>','<? echo $num; ?>')">
 <span class="glyphicon glyphicon-arrow-left">BACK</span></a>
 <br>
 
@@ -116,14 +118,15 @@ if($first_room != "")
 			  echo '<td style=" text-align: center;">
 			  <ol class="breadcrumb">
 			  <li><a href="#" title="Delete"><span class="glyphicon glyphicon-trash"
-			  		onClick="deleteRoundExam(\'php/deleteRound.php\',\''.$key_round.'\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')">
+			  		onClick="deleteRoundExam_2(\'php/deleteRound.php\',\''.$key_round.'\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')">
 					</span></a></li>
-			  <li><a href="#" onClick="editRoom(\'editRoom.php\',\'editRoom\',\''.$key_round.'\')" title="Edit"><span class="glyphicon glyphicon-edit"></span></a></li>
+			  <li><a href="#" onClick="editRoom_2(\'editRoom.php\',\'editRoom\',\''.$key_round.'\')" title="Edit"><span class="glyphicon glyphicon-edit"></span></a></li>
 			  <li><a href="php/exportRound.php?key_round='.$key_round.'"  title="Export" ><span class="glyphicon glyphicon-download-alt"></span></a></li>
 			  </ol>
 			  </td>';
 			  echo '</tr>'; 
 		  }
+          echo $num;
 		  ?>
        </thead>
 </table>
@@ -140,10 +143,10 @@ else
 <form class="form-inline" role="form">
      <div class="form-group">
         <label for="txset">จำนวนห้องสอบ: </label>
-        <input type="text" onChange="chkNum3(this,'')" class="form-control" id="num_room" placeholder="กรุณากรอกจำนวนห้อง">
+        <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="num_room" placeholder="กรุณากรอกจำนวนห้อง">
      </div>
         <input type="button" id="sbset" name="sbset" value="ตกลง" class="btn btn-info" style=" width: 150px;"
-         onClick="geneRoom('geneRoom.php','geneRoom','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $date; ?>','<? echo $round_number; ?>')">
+         onClick="geneRoom_2('geneRoom.php','geneRoom','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $date; ?>','<? echo $round_number; ?>','<? echo $num; ?>')">
 </form> 
 
 <div id="geneRoom">

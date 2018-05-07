@@ -44,14 +44,14 @@ else
 <br>
 <p>ชุดข้อสอบทฤษฏี: <? echo $y_se_s." ".$sub_semester; ?></p>
 <br>
-<a href="#" title="ย้อนกลับ" onClick="reloadPage('formFirstSetLecture.php','mainUser','<? echo $key_year_subject; ?>')"><span class="glyphicon glyphicon-arrow-left">BACK</span></a>
+<a href="#" title="ย้อนกลับ" onClick="reloadPage_2('formFirstSetLecture.php','mainUser','<? echo $key_year_subject; ?>')"><span class="fa fa-arrow-left">BACK</span></a>
 <br>
     <label>การสอบครั้งที่ : <span class="text-info"><? echo $round; ?></span></label>
 <form class="form-inline" role="form">
 <label>จำนวนชุดข้อสอบทฤษฎี: </label>
-<input type="text" onChange="chkNum3(this,'<? echo $amount; ?>')" class="form-control" id="amount_set" style="width: 80px;" value="<? echo $amount; ?>">
+<input type="text" onChange="chkNum3_2(this,'<? echo $amount; ?>')" class="form-control" id="amount_set" style="width: 80px;" value="<? echo $amount; ?>">
 <input type="button" id="btset" class="btn btn-info" value="แก้ไข" style="width: 100px;"
-onClick="updateAmount('php/updateAmount.php','mainUser','<? echo $key_year_subject; ?>','<? echo $sub_semester ?>')">
+onClick="updateAmount_2('php/updateAmount.php','mainUser','<? echo $key_year_subject; ?>','<? echo $sub_semester ?>')">
 </form>
 <br><br>
 
@@ -110,13 +110,13 @@ onClick="updateAmount('php/updateAmount.php','mainUser','<? echo $key_year_subje
 <p>เพิ่มส่วนข้อสอบ</p>
 <div class="row form-group" style="width: 900px;">
     <div class="col-sm-2 form-group">
-    	<input type="text" onChange="chkNum3(this,'')" class="form-control" id="m_article" placeholder="ส่วนข้อสอบ">
+    	<input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="m_article" placeholder="ส่วนข้อสอบ">
     </div>
     <div class="col-sm-2 form-group">
-    	<input type="text" onChange="chkNum4(this,'')" class="form-control" id="m_full_score" placeholder="คะแนนเต็ม(ดิบ)">
+    	<input type="text" onChange="chkNum4_2(this,'')" class="form-control" id="m_full_score" placeholder="คะแนนเต็ม(ดิบ)">
     </div>
     <div class="col-sm-2 form-group">
-    	<input type="text" onChange="chkNum4(this,'')" class="form-control" id="m_net_score" placeholder="คะแนนเต็ม(สุทธิ)">
+    	<input type="text" onChange="chkNum4_2(this,'')" class="form-control" id="m_net_score" placeholder="คะแนนเต็ม(สุทธิ)">
     </div>
     <div class="col-sm-3 form-group">
     	<select id="m_slteacher" name="m_slteacher" class="form-control"><option value="">Please select...</option>

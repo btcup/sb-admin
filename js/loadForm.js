@@ -358,8 +358,9 @@ function loadSetPExam(filename, div, key)
 	hr.onreadystatechange = function() {
 	    if(hr.readyState == 4 && hr.status == 200) {
 		    var return_data = hr.responseText;
-			document.getElementById(div).innerHTML = return_data;
-	    }
+            document.getElementById(div).innerHTML = return_data;
+
+
     }
 	hr.send(vars);
 }
@@ -2169,29 +2170,29 @@ function editGatherScore(filename, div, key_year_subject, key_gather){
 function updateGatherScore(filename, key_year_subject, key_gather)
 {
 	alert("เข้าฟังชั่น");
-	// var hr = new XMLHttpRequest();
-    // var url = filename;
-    // var full_score = document.getElementById('full_score').value;
-    // var net_score = document.getElementById('net_score').value;
-    //
-	// var target_file = "formSetGather.php?key_year_subject="+key_year_subject;
-    //
-	// if(full_score != "" && net_score != ""){
-	// 	var vars = "key_year_subject="+key_year_subject+"&full_score="+full_score+"&net_score="+net_score+"&key_gather="+key_gather;
-    	// hr.open("POST", url, true);
-    	// hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	// 	hr.send(vars);
-    	// hr.onreadystatechange = function() {
-	//     if(hr.readyState == 4 && hr.status == 200) {
-	// 	    var return_data = hr.responseText;
-	// 		alert(return_data);
-	// 		$('#mainUser').load(target_file);
-	//     }
-    	// }
-	// }
-	// else{
-	// 	alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-	// }
+	var hr = new XMLHttpRequest();
+    var url = filename;
+    var full_score = document.getElementById('full_score').value;
+    var net_score = document.getElementById('net_score').value;
+
+	var target_file = "formSetGather.php?key_year_subject="+key_year_subject;
+
+	if(full_score != "" && net_score != ""){
+		var vars = "key_year_subject="+key_year_subject+"&full_score="+full_score+"&net_score="+net_score+"&key_gather="+key_gather;
+    	hr.open("POST", url, true);
+    	hr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		hr.send(vars);
+    	hr.onreadystatechange = function() {
+	    if(hr.readyState == 4 && hr.status == 200) {
+		    var return_data = hr.responseText;
+			alert(return_data);
+			$('#mainUser').load(target_file);
+	    }
+    	}
+	}
+	else{
+		alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
+	}
     
 }
 
@@ -2400,5 +2401,5 @@ function updateGrade(filename,key_year_subject)
     {
         alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
     }
-}
+}}
 

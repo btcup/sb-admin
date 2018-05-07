@@ -27,10 +27,11 @@
                         <a href="managment.php">รายวิชา</a>
                     </li>
                     <li>
-                        <a href="formUserScore.php">กรอกคะแนน</a>
+                        <a href="formUserScoreDynamic.php">กรอกคะแนนเก็บ </a>
+
                     </li>
                     <li>
-                        <a href="formUserScoreDynamic.php">กรอกคะแนน dynamic</a>
+                        <a href="formUserScore.php">กรอกคะแนนสอบ</a>
                     </li>
 
                 </ul>

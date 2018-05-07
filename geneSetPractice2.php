@@ -31,11 +31,11 @@ $num = $_POST['num'];
             <label class="col-sm-2 control-label"><? echo $num; ?></label>
             <label class="col-sm-1 control-label"><? echo $j ?></label>
             <div class="col-sm-2">
-                <input size="6" type="text" onChange="chkNum4(this,'')" id="<? echo "f_" . $j; ?>" name="<? echo "f_" . $j; ?>"
+                <input size="6" type="text" onChange="chkNum4_2(this,'')" id="<? echo "f_" . $j; ?>" name="<? echo "f_" . $j; ?>"
                        class="form-control" placeholder="">
             </div>
             <div class="col-sm-2">
-                <input size="6" type="text" onChange="chkNum4(this,'')" id="<? echo "n_" . $j; ?>" name="<? echo "n_" . $j; ?>"
+                <input size="6" type="text" onChange="chkNum4_2(this,'')" id="<? echo "n_" . $j; ?>" name="<? echo "n_" . $j; ?>"
                        class="form-control" placeholder="">
             </div>
             <div class="col-sm-4">

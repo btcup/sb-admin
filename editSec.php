@@ -24,14 +24,14 @@ while($row = mysqli_fetch_assoc($result))
 	$id_teacher = $row['id_teacher']; 
 }
 ?>
-<a href="#" onClick="loadEdit('formEdit.php','divEdit','<? echo $key_year_subject; ?>')"><span class="glyphicon glyphicon-arrow-left">BACK</span></a>
+<a href="#" onClick="reloadPage_2('formEdit.php','mainUser','<? echo $key_year_subject; ?>')"><span class="fa fa-arrow-left">BACK</span></a>
 
 <form id="form1" class="form-inline" role="form" method="post" action="queryEditSec.php" target="showAddSec" style="width: 900px;">
 <input type="text" name="yearsubject" id="yearsubject" value="<? echo $key_year_subject; ?>" hidden="true">
 <input type="text" name="secsubject" id="secsubject" value="<? echo $key_sec_subject; ?>" hidden="true">
 	<div class="form-group">
     	<label for="numsec">เลขหมู่ปฏิบัติ:</label>
-		<input class="form-control" style=" width: 100px;" type="text" id="numsec" name="numsec" value ="<? echo $number_sec; ?>" onChange="chkNum2(this,'<? echo $number_sec; ?>')">
+		<input class="form-control" style=" width: 100px;" type="text" id="numsec" name="numsec" value ="<? echo $number_sec; ?>" onChange="chkNum2_2(this,'<? echo $number_sec; ?>')">
     </div>
     <div class="form-group">
      	<label for="slteacher">อาจารย์:</label>
@@ -94,7 +94,7 @@ while($row = mysqli_fetch_assoc($result))
         onClick="addStudent('php/editActionStudent.php','divSection2','editSec.php','add','<? echo $key_sec_subject; ?>')" style="width: 100px;" >
 </form><br>
 
-<div style="width: 500px; margin: auto;"><a href="#" title="Refresh" onClick="reloadPage('editSec.php','divSection2','<? echo $key_sec_subject; ?>')"><span class="glyphicon glyphicon-refresh"></span></a></div>
+<div style="width: 500px; margin: auto;"><a href="#" title="Refresh" onClick="reloadPage_2('editSec.php','divSection2','<? echo $key_sec_subject; ?>')"><span class="glyphicon glyphicon-refresh"></span></a></div>
 <table class="table table-striped" style="width: 1100px; margin: auto;">
         <thead>
           <tr>
@@ -123,7 +123,7 @@ while($row = mysqli_fetch_assoc($result))
 			echo '<td style="text-align: center;">'.$id.'</td>';
 			echo '<td>'.$name.'</td>';
 			echo '<td style="text-align: center;">'.$major.'</td>';
-			echo '<td style="text-align: center;"><a href="#" onClick="deleteStudent(\'php/editActionStudent.php\',\'divSection2\',\'delete\',\''.$key_student.'\',\'editSec.php\',\''.$key_sec_subject.'\')" title"Delete"><span class="fa fa-trash"></span></a></td>';
+			echo '<td style="text-align: center;"><a href="#" onClick="deleteStudent_2(\'php/editActionStudent.php\',\'divSection2\',\'delete\',\''.$key_student.'\',\'editSec.php\',\''.$key_sec_subject.'\')" title"Delete"><span class="fa fa-trash"></span></a></td>';
 			echo '</tr>';
 		  	}
 		  }

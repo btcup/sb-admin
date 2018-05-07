@@ -1,13 +1,7 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <script src="js/loadForm.js"></script>
-  <script src="js/changeActive.js"></script>
+
 <title>Untitled Document</title>
 </head>
 
@@ -26,7 +20,7 @@ else
 {
 ?>
 <div class="form-group"><span class="text-danger">หมายเหตุ: ห้ามเลือกทุกช่วงเวลา (หากไม่สามารถมาสอบได้ทุกช่วงเวลากรุณาติดต่ออาจารย์ผู้สอน ) <br> หากเหตุผลในการส่งคำร้องไม่มีความเหมาะสม นิสิตจะถูกหักคะแนนตามดุลยพินิจของอาจารย์  </span></div>
-<div class="row form-group" style="width: 800px;">
+<div class="row form-group" style="width: 1100px;">
 	<form method="post" action="php/addRequest.php" target="showAddRequest" >
     	<input type="text" name="txkeyyearsubject" value="<? echo $key_year_subject; ?>" hidden="true">
         <input type="text" name="txsubsemester" value="<? echo $sub_semester; ?>" hidden="true">
@@ -37,12 +31,14 @@ else
         	<div class="row form-group">
                 <?
 				$i = 0;
-				$sql = "SELECT DISTINCT date,time_start,time_end FROM round_exam 
+				$sql = "SELECT DISTINCT numofexam,date,time_start,time_end FROM round_exam 
 						WHERE key_year_subject = '$key_year_subject' and sub_semester = '$sub_semester'";
 				$result = mysqli_query($database,$sql);
 				while($row = mysqli_fetch_array($result))
 				{
 					$i++;
+					$text= "การสอบครั้งที่ ";
+					$num = $row['numofexam'];
 					$date = $row['date'];
 					$time_start = $row['time_start'];
 					$time = $row['time_start']."-".$row['time_end'];
@@ -53,11 +49,12 @@ else
 					$num_request = mysqli_num_rows($result_request);
 					if($num_request == 0)
 					{
-					echo '<div class="col-sm-5">';
-					echo '<label><input type="checkbox" id="cb_'.$i.'" name="cb_'.$i.'" value="'.$date.$time.'"> '.$date.' '.$time.'</label>';
+
+					echo '<div class="col-sm-7">';
+					echo '<label><input type="checkbox" id="cb_'.$i.'" name="cb_'.$i.'" value="'.$date.$time.$num.'"> ' .$text.' '.$num.' '.$date.' '.$time.'</label>';
 					echo '</div>';
-					echo '<div class="col-sm-6">';
-					echo '<textarea class="form-control" id="tx_'.$i.'" name="tx_'.$i.'" placeholder="กรุณาใส่เหตุผลที่ไม่สะดวกมาสอบ"></textarea>';
+					echo '<div class="col-sm-5">';
+					echo '<textarea class="form-control" id="tx_'.$i.'" name="tx_'.$i.'" style="font-size: 18px" placeholder="กรุณาใส่เหตุผลที่ไม่สะดวกมาสอบ"></textarea>';
 					echo '</div>';
 					}
 				}
@@ -65,7 +62,7 @@ else
                <input type="text" name="txi" value="<? echo $i; ?>" hidden="true">
     </form>
                 	<div class="col-sm-5">
-                    	 <input type="submit" value="SUBMIT" class="btn btn-success" style="width: 150px;">
+                    	 <input type="submit" value="SUBMIT"   class="btn btn-success" style="width: 150px ; >
 					</div>
 					<div class="col-sm-6">
 							<iframe id="showAddRequest" name="showAddRequest" style="width: 250px; height: 50px; margin-right: auto; 

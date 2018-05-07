@@ -1,12 +1,14 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <title>edit manual sec teache</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
 
     <!-- Bootstrap core CSS ***template***-->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +18,20 @@
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     <!-- Custom styles for this template ***left bar***-->
     <link href="css/sb-admin.css" rel="stylesheet">
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <!--previous next-->
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+    <!--scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+    <!--filter datatable-->
+    <script src="js/sb-admin-datatables.min.js"></script>
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -26,7 +42,10 @@
 </head>
 
 <body>
-<div id="divedit" class="container" style="background-color: white;">
+<div class="card-header">
+    <a class="fa fa-table"> แก้ไขรายวิชา</a>
+</div>
+<div id="divedit" class="container" >
     <div id="mainForm">
 <?
 include("config/connectDB.php");
@@ -52,9 +71,10 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 ?>
 <br>
+
 <p><? echo $year . "/" . $semester . "/" . $subject . " practice section: " . $sec_number; ?></p><br><br>
 
-<a href="managment.php"><span class="glyphicon glyphicon-arrow-left">BACK</span></a>
+<a href="managment.php"><span class="fa fa-arrow-left">BACK</span></a>
 <br>
 <label class="control-label">***.csv: <span class="text-danger">ลำดับ,รหัสวิชา,รหัสนิสิต,ชื่อ-นามสกุล,รหัสสาขา,* </span></label>
 <form id="formcsv" name="formcsv" class="form-inline" role="form" method="post" action="php/addEditStudentCSV.php"
@@ -63,7 +83,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     <input type="text" name="secsubject2" id="secsubject2" value="<? echo $key_sec_subject; ?>" hidden="true">
     <div class="form-group">
         <label for="csvfile">นิสิต(.csv):</label>
-        <input type="file" style="width: 200px;" id="csvfile" name="csvfile">
+        <input type="file" style="width: 300px;" id="csvfile" name="csvfile">
     </div>
     <div class="form-group">
         <input type="submit" class="btn btn-info" value="เพิ่มนิสิต" style="width: 100px;">

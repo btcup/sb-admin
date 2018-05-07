@@ -16,8 +16,8 @@ if ($sub_semester == "midterm") {
     <form class="form-inline" role="form">
         <div class="">
             <label class="control-label"><span class=" text-danger">Sub-semester:  </span></label>
-            <label><input type="radio" id="rsub" name="rsub" value="midterm" checked> Mid-team </label>
-            <label><input type="radio" id="rsub" name="rsub" value="final" disabled> Final</label>
+            <label><input type="radio" id="rsub" name="rsub" value="midterm" > Mid-team </label>
+            <label><input type="radio" id="rsub" name="rsub" value="final" > Final</label>
         </div>
     </form>
     <form class="form-inline" role="form">
@@ -30,12 +30,12 @@ if ($sub_semester == "midterm") {
     <form class="form-inline" role="form">
         <div class="form-group">
             <label for="txset">ชุดที่: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txset"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txset"
                    placeholder="กรุณากรอกเลขชุด">
         </div>
         <div class="form-group">
             <label for="">จำนวนข้อ/ชุด: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txarticle"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txarticle"
                    placeholder="กรุณากรอกจำนวนข้อ/ชุด">
         </div>
         <input type="button" id="sbset" name="sbset" value="ตกลง"
@@ -67,12 +67,12 @@ if ($sub_semester == "midterm") {
     <form class="form-inline" role="form">
         <div class="form-group">
             <label for="txset">ชุดที่: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txset"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txset"
                    placeholder="กรุณากรอกเลขชุด">
         </div>
         <div class="form-group">
             <label for="">จำนวนข้อ/ชุด: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txarticle"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txarticle"
                    placeholder="กรุณากรอกจำนวนข้อ/ชุด">
         </div>
         <input type="button" id="sbset" name="sbset" value="ตกลง"

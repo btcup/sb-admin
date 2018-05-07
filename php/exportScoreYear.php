@@ -123,12 +123,19 @@ while($row_student = mysqli_fetch_array($result_student))
 	$result_score_gather = mysqli_query($database,$sql_score_gather);
 	$row_score_gather = mysqli_fetch_assoc($result_score_gather);
 	$gather_full_score = $row_score_gather['full_score'];
-	$gather_net_score = $row_score_gather['net_score'];
+    $gather_net_score = $row_score_gather['net_score'];}
 
 	$sql = "SELECT * FROM score_gather WHERE key_student = '$key_student'";
 	$result = mysqli_query($database,$sql);
 	while ($row = mysqli_fetch_assoc($result)){ $score_gather += $row['score']; }
-	$score_gather = (floatval($score_gather)/floatval($gather_full_score))*floatval($gather_net_score);
+	if ($gather_full_score != 0)
+	{
+
+	$score_gather = (floatval($score_gather)/floatval($gather_full_score))*floatval($gather_net_score);}
+	else
+    {
+        $score_gather  =0;
+    }
 
 //get score lecture
 	$sql = "SELECT * FROM score_lecture
@@ -222,7 +229,7 @@ while($row_student = mysqli_fetch_array($result_student))
 }
 }
 
-}
+
 
 
 }

@@ -47,8 +47,8 @@ $y_se_s .= $rowsubject['id_subject'] . " " . $rowsubject['name_subject']; //   y
     <p>จัดชุดข้อสอบปฏิบัติ: <? echo $y_se_s . " " . $sub_semester; ?></p><br>
     <br>
     <a href="#" title="ย้อนกลับ"
-       onClick="reloadPage('formFirstSetPractice.php','mainUser','<? echo $key_year_subject; ?>')"><span
-                class="glyphicon glyphicon-arrow-left">BACK</span></a>
+       onClick="reloadPage_2('formFirstSetPractice.php','mainUser','<? echo $key_year_subject; ?>')"><span
+                class="fa fa-arrow-left">BACK</span></a>
     <br><br>
     <label>การสอบครั้งที่ : <span class="text-info"><? echo $round; ?></span></label>
     <label>ชุดที่: <span class="text-info"><? echo $set; ?></span></label>
@@ -70,7 +70,7 @@ $y_se_s .= $rowsubject['id_subject'] . " " . $rowsubject['name_subject']; //   y
         $sql = "SELECT * FROM set_practice_exam
 					LEFT JOIN teacher ON teacher.id_teacher = set_practice_exam.id_teacher
 					WHERE key_year_subject = '$key_year_subject' and sub_semester = '$sub_semester' 
-					and set_exam = '$set'";
+					and set_exam = '$set' and numofexam = '$round'";
         $result = mysqli_query($database, $sql);
         $chknum = mysqli_num_rows($result);
         if ($chknum != 0) {

@@ -35,14 +35,16 @@ session_start();
     <script src="js/sb-admin.min.js"></script>
     <!--filter datatable-->
     <script src="js/sb-admin-datatables.min.js"></script>
-    <!--chart-->
-    <script src="js/sb-admin-charts.min.js"></script>
 
-    <script src="js/j.min.js"></script>
+    <!--chart-->
+
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-switch.js"></script>
     <script src="js/loadForm.js"></script>
+    <script src="js/loadForm2.js"></script>
+
     <script src="js/changeActive.js"></script>
+
 
     <style>
 
@@ -80,11 +82,16 @@ else
 ?>
 
 <div class="content-wrapper">
-    <div id="addgrade" class="container" style="background-color: lightblue;">
 
+
+    <?
+    include("inclu_UserBar.php");
+    ?>
+    <div class="card-header">
+        <a class="fa fa-table"> ดูรายละเอียดคะแนน</a>
+    </div>
+    <div id="addgrade" class=" container">
         <?
-        include("inclu_UserBar.php");
-
 
         $sql = "SELECT * FROM year_subject
     INNER JOIN year ON year.key_year = year_subject.key_year
@@ -108,7 +115,7 @@ else
         $Cp = "";
         $C = "";
         $Dp = "";
-        $D = "";;
+        $D = "";
         $sql = "SELECT * FROM set_grade_sec WHERE key_year_sub = '$key_year_subject'";
         $result = mysqli_query($database, $sql);
         while ($row = mysqli_fetch_array($result)) {
@@ -124,6 +131,8 @@ else
 
         <div style="margin:auto;width 1100px;">
             <div id="chart_div" style="margin:auto;width:1100px;height:600px;"></div>
+            <label for="txset">ความถี่เกรด </label>
+            <div id="chart_div2" style="margin:auto;width:1100px;height:600px;"></div>
         </div>
         <label for="txset">เกณฑ์การแบ่งระดับคะแนน </label>
         <p>แบ่งระดับคะแนน ของรายวิชา <? echo $subject; ?></p>
@@ -209,7 +218,7 @@ else
         </div>
     </div>
     <br>
-    <div id="divview" class="container" style="background-color: lightblue;">
+    <div id="divview" class="card-body" style="background-color: white; margin: auto">
         <div id="mainForm">
 
 
@@ -224,13 +233,13 @@ else
                        class="btn btn-primary" style=" width: 150px;">
             </form>-->
 
-            <div class="row form-group" style=" width: 500px;">
+            <div class="container" >
                 <div class="col-sm-3">
                     <label class="control-label">แสดงตามหมู่: </label>
                 </div>
                 <div class="col-sm-4">
                     <select class="form-control" id="secstudent" name="secstudent"
-                            onChange="laodScoreLectureSec('queryStudentView.php','tableStudentView','<? echo $key_year_subject ?>')">
+                            onChange="laodScoreLectureSec_2('queryStudentView.php','tableStudentView','<? echo $key_year_subject ?>')">
                         <?
                         $sql = "SELECT * FROM sec_subject WHERE key_year_subject = '$key_year_subject' ORDER BY number";
                         $result_sec = mysqli_query($database, $sql);
@@ -261,108 +270,214 @@ else
                     $full_score_practice_fin = 0;
                     $full_score = 0;
                     $finalgrade = 0;
-
-
-                    //gather
-                    $sql = "SELECT * FROM set_gather_score WHERE key_year_subject = '$key_year_subject'";
-                    $result = mysqli_query($database, $sql);
-                    $row = mysqli_fetch_assoc($result);
-                    $full_score_gather += $row['net_score'];
-                    $full_score += $full_score_gather;
-
-                    //lecture
-                    $sql = "SELECT DISTINCT subSet_lExam FROM set_lecture_exam WHERE key_year_subject = '$key_year_subject' 
-		and sub_semester = 'midterm'";
-                    $result = mysqli_query($database, $sql);
-                    $num_lecture_mid = mysqli_num_rows($result);
-                    if ($num_lecture_mid != 0) {
-                        for ($i = 1; $i <= $num_lecture_mid; $i++) {
-                            $sql = "SELECT * FROM set_lecture_exam WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm'
-            	and subSet_lExam = '$i'";
-                            $result = mysqli_query($database, $sql);
-                            $row = mysqli_fetch_assoc($result);
-                            $full_score_lecture_mid += $row['net_score'];
-                        }
-                        $full_score += $full_score_lecture_mid;
-                    }
-                    $sql = "SELECT DISTINCT subSet_lExam FROM set_lecture_exam WHERE key_year_subject = '$key_year_subject' 
-		and sub_semester = 'final'";
-                    $result = mysqli_query($database, $sql);
-                    $num_lecture_fin = mysqli_num_rows($result);
-                    if ($num_lecture_fin != 0) {
-                        for ($i = 1; $i <= $num_lecture_fin; $i++) {
-                            $sql = "SELECT * FROM set_lecture_exam WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final'
-            	and subSet_lExam = '$i'";
-                            $result = mysqli_query($database, $sql);
-                            $row = mysqli_fetch_assoc($result);
-                            $full_score_lecture_fin += $row['net_score'];
-                        }
-                        $full_score += $full_score_lecture_fin;
-                    }
-
-                    //practice
-                    $sql = "SELECT DISTINCT article_exam FROM set_practice_exam WHERE key_year_subject = '$key_year_subject' 
-		and sub_semester = 'midterm'";
-                    $result = mysqli_query($database, $sql);
-                    $num_practice_mid = mysqli_num_rows($result);
-                    if ($num_practice_mid != 0) {
-                        for ($i = 1; $i <= $num_practice_mid; $i++) {
-                            $sql = "SELECT * FROM set_practice_exam WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm'
-                      	and article_exam = '$i' LIMIT 1";
-                            $result = mysqli_query($database, $sql);
-                            $row = mysqli_fetch_assoc($result);
-                            $full_score_practice_mid += $row['net_score'];
-                        }
-                        $full_score += $full_score_practice_mid;
-                    }
-                    $sql = "SELECT DISTINCT article_exam FROM set_practice_exam WHERE key_year_subject = '$key_year_subject' 
-		                 and sub_semester = 'final'";
-                    $result = mysqli_query($database, $sql);
-                    $num_practice_fin = mysqli_num_rows($result);
-                    if ($num_practice_fin != 0) {
-                        for ($i = 1; $i <= $num_practice_fin; $i++) {
-                            $sql = "SELECT * FROM set_practice_exam WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final'
-                      	and article_exam = '$i' LIMIT 1";
-                            $result = mysqli_query($database, $sql);
-                            $row = mysqli_fetch_assoc($result);
-                            $full_score_practice_fin += $row['net_score'];
-                        }
-                        $full_score += $full_score_practice_fin;
-                    }
                     ?>
 
-                    <table class="table table-striped" style=" width: 1100px; margin: auto;">
+
+
+                    <table class="table table-bordered" id="TB7" style=" width: 1500px; margin: auto">
+                        <!--                    <thead>-->
+                        <!--                    <tr>-->
+                        <!--                        <th style=""></th>-->
+                        <!--                        <th style=""></th>-->
+                        <!--                        <th style=""></th>-->
+                        <!--                        <th style=""></th>-->
+                        <!--                        <th colspan="4" style="width: 1500px; text-align: center;"></th>-->
+                        <!--                        <th colspan="3" style=" text-align: center;">Mid-term</th>-->
+                        <!--                        <th colspan="3" style=" text-align: center;">Final</th>-->
+                        <!--                        <th style="width: 0px;"></th>-->
+                        <!--                    </tr>-->
+                        <!--                    </thead>-->
                         <thead>
-                        <tr>
-                            <th style="width: 50px;"></th>
-                            <th style="width: 100px;"></th>
-                            <th style="width: 50px;"></th>
-                            <th style="width: 100px;"></th>
-                            <th colspan="2" style="width: 200px; text-align: center;">Mid-term</th>
-                            <th colspan="2" style=" width: 200px; text-align: center;">Final</th>
-                            <th style="width: 100px;"></th>
-                        </tr>
                         <tr>
                             <th style="width: 50px; text-align: center;">#</th>
                             <th style="width: 100px;">รหัสนิสิต</th>
-                            <th style="width: 400px;">ชื่อ</th>
+                            <th style="width: 200px;">ชื่อ</th>
                             <th style="width: 50px;">สถานะ</th>
-                            <th style="width: 150px; text-align: center;">คะแนนเก็บ(<? echo $full_score_gather; ?>)</th>
-                            <th style="width: 100px; text-align: center;">ทฤษฎี(<? echo $full_score_lecture_mid; ?>)
-                            </th>
-                            <th style="width: 110px; text-align: center;">ปฏิบัติ(<? echo $full_score_practice_mid; ?>
-                                )
-                            </th>
-                            <th style=" width: 110px; text-align: center;">ทฤษฎี(<? echo $full_score_lecture_fin; ?>)
-                            </th>
-                            <th style=" width: 110px; text-align: center;">ปฏิบัติ(<? echo $full_score_practice_fin; ?>
-                                )
-                            </th>
-                            <th style="width: 100px; text-align: center;;">คะแนนรวม(<? echo $full_score; ?>)</th>
-                            <th style="width: 100px; text-align: center;;">คิดเป็นเกรด</th>
-                        </tr>
-                        <?
 
+                            <!--                        //headtable score gather dynamic-->
+                            <?
+                            $sqlscoregater = "SELECT * FROM `set_score_gather_dynamic`  WHERE key_year_subject = '$key_year_subject'  ";
+                            $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+                            $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+                            if ($chknumscoregahter != 0) {
+                                while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+                                    ?>
+                                    <th>
+                                        <div id="verti"><? echo $row_resultsqlscoregather['nameScore'] . "<br>" . "เต็ม (" . $row_resultsqlscoregather['fullscore'] . ")" ?></div>
+                                    </th>
+                                    <? $full_score_gather += $row_resultsqlscoregather['fullscore'];
+
+                                    ?>
+                                <? }
+                                //  $full_score += $full_score_gather;
+
+                            } ?>
+
+
+                            <!--                        //headtable score lecture midterm-->
+                            <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by numofexam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+                                while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+                                    <th>
+                                        <div id="verti"><? echo "L_M_NO." . $row_resultsqlscore['numofexam'] . "<br>" . "เต็ม(" . $row_resultsqlscore['score'] . ")"; ?></div>
+                                    </th>
+                                    <? $full_score_lecture_mid += $row_resultsqlscore['score'];
+                                    ?>
+                                    <?
+                                }
+                                //  $full_score += $full_score_lecture_mid;
+                            } ?>
+                            <!--                        //headtable score practice midterm-->
+                            <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by set_exam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+                                while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+                                    <th style="width: 100px;  ">
+                                        <div id="verti"><? echo "P_M_NO." . $row_resultsqlscore['numofexam'] . "ชุดที่" . $row_resultsqlscore['set_exam'] . "เต็ม(" . $row_resultsqlscore['score'] . ")"; ?></div>
+                                    </th>
+                                    <? $full_score_practice_mid += $row_resultsqlscore['score'];
+
+                                    ?>
+                                    <?
+                                }
+                                //   $full_score += $full_score_practice_mid;
+                            } ?>
+
+                            <!--                        //headtable score lecture final-->
+                            <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by numofexam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+                                while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+                                    <th style="width: 100px;  ">
+                                        <div id="verti"><? echo "L_F_NO." . $row_resultsqlscore['numofexam'] . "<br>" . "เต็ม(" . $row_resultsqlscore['score'] . ")"; ?></div>
+                                    </th>
+                                    <? $full_score_lecture_fin += $row_resultsqlscore['score'];
+
+                                    ?>
+                                    <?
+                                }
+                                // $full_score += $full_score_lecture_fin;
+                            } ?>
+                            <!--                        //headtable score practice final-->
+                            <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by set_exam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+                                while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+                                    <th style="width: 100px;  ">
+                                        <div id="verti"><? echo "P_F_NO." . $row_resultsqlscore['numofexam'] . "ชุดที่" . $row_resultsqlscore['set_exam'] . "เต็ม(" . $row_resultsqlscore['score'] . ")"; ?></div>
+                                    </th>
+                                    <? $full_score_practice_fin += $row_resultsqlscore['score'];
+
+                                    ?>
+                                    <?
+                                }
+                                //   $full_score += $full_score_practice_fin;
+                            } ?>
+                            <?
+                            //gather_net
+                            //headtable score gather คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                            $net_score_gather = 0;
+                            $full_score_gather2 = 0;
+                            $sql = "SELECT * FROM set_gather_score WHERE key_year_subject = '$key_year_subject'";
+                            $result = mysqli_query($database, $sql);
+                            $row = mysqli_fetch_assoc($result);
+                            $net_score_gather += $row['net_score'];
+
+                            $sqlscoregater = "SELECT * FROM `set_score_gather_dynamic`  WHERE key_year_subject = '$key_year_subject'  ";
+                            $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+                            $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+                            if ($chknumscoregahter != 0) {
+                                while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+                                    $full_score_gather2 += $row_resultsqlscoregather['fullscore'];
+                                }
+                                ?>
+
+                                <th style="width: 100px; text-align: center;"><? echo "คะแนนเก็บเต็ม(ดิบ) " . "<br>" . "(" . $full_score_gather . ")" ?></th>
+                                <th style="width: 100px; text-align: center;"><? echo "คะแนนเก็บเต็ม " . "<br>" . "(" . $net_score_gather . ")" ?></th>
+                                <?
+                                $full_score += $net_score_gather;
+                            } ?>
+
+
+                            <!--                        //headtable score lecture midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+                            <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by numofexam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+
+                                ?>
+                                <th style="width: 120px; text-align: center;"><? echo "ทฤษฎี " . "<br>" . "(" . $full_score_lecture_mid . ")" ?></th>
+                                <?
+                                $full_score += $full_score_lecture_mid;
+                            } ?>
+
+                            <!--                        //headtable score prac midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+                            <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by set_exam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+
+                                ?>
+                                <th style="width: 120px; text-align: center;"><? echo "ปฏิบัติ " . "<br>" . "(" . $full_score_practice_mid . ")" ?></th>
+                                <?
+                                $full_score += $full_score_practice_mid;
+                            } ?>
+
+                            <!--                        //headtable score lec final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+                            <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by numofexam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+                                ?>
+                                <th style=" width: 120px; text-align: center;"><? echo "ทฤษฎี " . "<br>" . "(" . $full_score_lecture_fin . ")" ?></th>
+                                <?
+                                $full_score += $full_score_lecture_fin;
+                            } ?>
+
+                            <!--                        //headtable score prac final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+                            <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by set_exam ";
+                            $resultsqlscore = mysqli_query($database, $sqlscore);
+                            $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                            if ($chknumscore != 0) {
+                                ?>
+                                <th style=" width: 120px; text-align: center;"><? echo "ปฏิบัติ " . "<br>" . "(" . $full_score_practice_fin . ")" ?></th>
+                                <?
+                                $full_score += $full_score_practice_fin;
+                            } ?>
+
+
+                            <!--                        //headtable score all คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+                            <th style=" width: 120px; text-align: center;"><? echo "รวม " . "<br>" . "(" . $full_score . ")" ?></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <?
+                        $As = 0;
+                        $Bps = 0;
+                        $Bs = 0;
+                        $Cps = 0;
+                        $Cs = 0;
+                        $Dps = 0;
+                        $Ds = 0;
+                        $Fs = 0;
                         $sql = "SELECT * FROM student WHERE key_sec_subject = '$first_sec'";
                         $result_student = mysqli_query($database, $sql);
                         $chknum = mysqli_num_rows($result_student);
@@ -374,7 +489,10 @@ else
                                 $id_student = $row_student['id_student'];
                                 $student_name = $row_student['name_student'];
                                 $current_status = $row_student['status'];
+                                $score_gather_current = 0;
                                 $score_gather = 0;
+                                $scoregather = 0;
+                                $gather_full_score = 0;
                                 $score_lecture_midterm = 0;
                                 $score_lecture_final = 0;
                                 $score_practice_midterm = 0;
@@ -384,110 +502,219 @@ else
 //$key_year_subject = $_POST['key_year_subject'];
 //$key_student = $_POST['key_student'];
 
-
-//get score gather
-                                $sql_score_gather = "SELECT * FROM set_gather_score WHERE key_year_subject = '$key_year_subject'";
-                                $result_score_gather = mysqli_query($database, $sql_score_gather);
-                                $row_score_gather = mysqli_fetch_assoc($result_score_gather);
-                                $gather_full_score = $row_score_gather['full_score'];
-                                $gather_net_score = $row_score_gather['net_score'];
-
-                                $sql = "SELECT * FROM score_gather WHERE key_student = '$key_student'";
-                                $result = mysqli_query($database, $sql);
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    $score_gather += $row['score'];
-                                }
-                                if ($gather_full_score != 0) { //check devide by zero
-                                $score_gather = (floatval($score_gather) / floatval($gather_full_score)) * floatval($gather_net_score);}
-                                else
-                                {
-                                    $current_score = 0;
-                                }
-
-//get score lecture
-                                $sql = "SELECT * FROM score_lecture
-	                                INNER JOIN set_lecture_exam 
-	                                  ON set_lecture_exam.key_year_subject = '$key_year_subject' and set_lecture_exam.key_set_lExam = score_lecture.key_set_lExam 
-	                                    WHERE key_student = '$key_student'";
-                                $result = mysqli_query($database, $sql);
-                                $num = mysqli_num_rows($result);
-                                while ($row = mysqli_fetch_array($result)) {
-                                    if ($row['sub_semester'] == "midterm") {
-                                        $current_score = $row['score'];
-                                        $key_set_lExam = $row['key_set_lExam'];
-                                        $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
-                                        $result_score_lecture = mysqli_query($database, $sql_score_lecture);
-                                        $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
-                                        $lecture_full_score = $row_score_lecture['fullScore'];
-                                        $lecture_net_score = $row_score_lecture['net_score'];
-                                        if ($lecture_full_score != 0) { //check devide by zero
-                                            $current_score = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
-                                        } else {
-                                            $current_score = 0;
-                                        }
-                                        $score_lecture_midterm += round($current_score, 2);
-                                    } else if ($row['sub_semester'] == "final") {
-                                        $current_score = $row['score'];
-                                        $key_set_lExam = $row['key_set_lExam'];
-                                        $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
-                                        $result_score_lecture = mysqli_query($database, $sql_score_lecture);
-                                        $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
-                                        $lecture_full_score = $row_score_lecture['fullScore'];
-                                        $lecture_net_score = $row_score_lecture['net_score'];
-                                        if ($lecture_full_score != 0) { //check devide by zero
-                                            $current_score = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
-                                        } else {
-                                            $current_score = 0;
-                                        }
-                                        $score_lecture_final += round($current_score, 2);
-                                    }
-                                }
-
-//get score practice
-                                $sql = "SELECT * FROM score_practice
-	                                      INNER JOIN set_practice_exam 
-	                                      ON set_practice_exam.key_year_subject = '$key_year_subject' and set_practice_exam.key_set_pExam = score_practice.key_set_pExam 
-	                                      WHERE key_student = '$key_student'";
-                                $result = mysqli_query($database, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                    if ($row['sub_semester'] == "midterm") {
-                                        $current_score = $row['score'];
-                                        $key_set_pExam = $row['key_set_pExam'];
-
-                                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
-                                        $result_set_practice = mysqli_query($database, $sql_set_practice);
-                                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
-                                        $practice_full_score = $row_set_practice['fullScore'];
-                                        $practice_net_score = $row_set_practice['net_score'];
-                                        if ($practice_full_score != 0) { //check devide by zero
-                                            $current_score = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
-                                        } else {
-                                            $current_score = 0;
-                                        }
-                                        $score_practice_midterm += round($current_score, 2);
-                                    } else if ($row['sub_semester'] == "final") {
-                                        $current_score = $row['score'];
-                                        $key_set_pExam = $row['key_set_pExam'];
-
-                                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
-                                        $result_set_practice = mysqli_query($database, $sql_set_practice);
-                                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
-                                        $practice_full_score = $row_set_practice['fullScore'];
-                                        $practice_net_score = $row_set_practice['net_score'];
-                                        if ($practice_full_score != 0) { //check devide by zero
-                                            $current_score = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
-                                        } else {
-                                            $current_score = 0;
-                                        }
-                                        $score_practice_final += round($current_score, 2);
-                                    }
-                                }
-
-
                                 $str_status = "s_" . $key_student;
                                 $all = $score_gather + $score_lecture_midterm + $score_lecture_final + $score_practice_midterm + $score_practice_final;
 
 
+                                echo '<tr>';
+                                echo '<td style="text-align: center;">' . $i . '</td>';
+                                echo '<td style="">' . $id_student . '</td>';
+                                echo '<td style=""><span class="text-dark">' . $student_name . '</span></td>';
+                                echo '<td style=""><span class="text-dark">' . $current_status . '</span></td>';
+
+                                //score gather dynamic
+                                $sqlscoregater = "SELECT * FROM score_gather_dynamic
+	                        INNER JOIN set_score_gather_dynamic  ON set_score_gather_dynamic.key_year_subject = '$key_year_subject' 
+	                        and set_score_gather_dynamic.key_set_gather = score_gather_dynamic.key_set_gather WHERE key_student ='$key_student'  ";
+                                $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+                                $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+                                if ($chknumscoregahter != 0) {
+
+                                    while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+                                        if ($row_resultsqlscoregather != NULL) {
+                                            if ($row_resultsqlscoregather['score'] == NULL) {
+                                                $score_gather = 0;
+                                            } else {
+                                                $score_gather = $row_resultsqlscoregather['score'];
+                                            }
+                                        } else {
+                                            $score_gather = 0;
+                                        }
+                                        echo '<td style="text-align: center;"><span class="text-info">' . $score_gather . '</span></td>';
+                                        $score_gather_current += $score_gather;
+
+                                    }
+
+                                    $scoregather = ($score_gather_current / $full_score_gather) * $net_score_gather;
+
+                                }
+                                $sql = "SELECT numofexam,fullScore,net_score, SUM(score) as score FROM score_lecture	INNER JOIN set_lecture_exam ON set_lecture_exam.key_year_subject = '$key_year_subject' 
+                            and set_lecture_exam.key_set_lExam = score_lecture.key_set_lExam WHERE key_student = '$key_student' and sub_semester ='midterm' GROUP by numofexam";
+                                $result = mysqli_query($database, $sql);
+                                $num = mysqli_num_rows($result);
+                                while ($row = mysqli_fetch_array($result)) {
+
+                                    $current_score = $row['score'];
+                                    //  $key_set_lExam = $row['key_set_lExam'];
+//                            $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
+//                            $result_score_lecture = mysqli_query($database, $sql_score_lecture);
+//                            $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
+                                    $lecture_full_score = $row['fullScore'];
+                                    $lecture_net_score = $row['net_score'];
+                                    if ($lecture_full_score != 0) { //check devide by zero
+                                        $current_scoreL = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
+                                    } else {
+                                        $current_score = "ไม่ออก";
+                                    }
+
+                                    echo '<td style="text-align: center;"><span class="text-info">' . $current_scoreL . '</span></td>';
+                                    $score_lecture_midterm += $current_scoreL;
+
+                                }
+
+
+                                $sql = "SELECT numofexam,set_exam,fullScore,net_score, SUM(score) as score FROM score_practice INNER JOIN set_practice_exam ON set_practice_exam.key_year_subject = '$key_year_subject' 
+                          and set_practice_exam.key_set_pExam = score_practice.key_set_pExam WHERE key_student = '$key_student'  and sub_semester ='midterm' GROUP by set_exam";
+                                $result = mysqli_query($database, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+
+                                    $current_score = $row['score'];
+//                        $key_set_pExam = $row['key_set_pExam'];
+//
+//                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
+//                        $result_set_practice = mysqli_query($database, $sql_set_practice);
+//                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
+                                    $practice_full_score = $row['fullScore'];
+                                    $practice_net_score = $row['net_score'];
+                                    if ($practice_full_score != 0) { //check devide by zero
+                                        $current_scoreP = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
+                                    } else {
+                                        $current_score = 0;
+                                    }
+
+                                    echo '<td style="text-align: center;"><span class="text-info">' . $current_scoreP . '</span></td>';
+                                    $score_practice_midterm += round($current_scoreP, 2);
+                                }
+
+                                $sql = "SELECT numofexam,fullScore,net_score, SUM(score) as score FROM score_lecture	INNER JOIN set_lecture_exam ON set_lecture_exam.key_year_subject = '$key_year_subject' 
+                            and set_lecture_exam.key_set_lExam = score_lecture.key_set_lExam WHERE key_student = '$key_student' and sub_semester ='final' GROUP by numofexam";
+                                $result = mysqli_query($database, $sql);
+                                $num = mysqli_num_rows($result);
+                                while ($row = mysqli_fetch_array($result)) {
+
+                                    $current_score = $row['score'];
+                                    //  $key_set_lExam = $row['key_set_lExam'];
+//                            $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
+//                            $result_score_lecture = mysqli_query($database, $sql_score_lecture);
+//                            $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
+                                    $lecture_full_score = $row['fullScore'];
+                                    $lecture_net_score = $row['net_score'];
+                                    if ($lecture_full_score != 0) { //check devide by zero
+                                        $current_scoreL = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
+                                    } else {
+                                        $current_score = "ไม่ออก";
+                                    }
+
+                                    echo '<td style="text-align: center;"><span class="text-info">' . "$current_scoreL" . '</span></td>';
+                                    $score_lecture_final += round($current_scoreL, 2);
+                                }
+
+
+                                $sql = "SELECT numofexam,set_exam,fullScore,net_score, SUM(score) as score FROM score_practice INNER JOIN set_practice_exam ON set_practice_exam.key_year_subject = '$key_year_subject' 
+                          and set_practice_exam.key_set_pExam = score_practice.key_set_pExam WHERE key_student = '$key_student'  and sub_semester ='final' GROUP by set_exam";
+                                $result = mysqli_query($database, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+
+                                    $current_score = $row['score'];
+//                        $key_set_pExam = $row['key_set_pExam'];
+//
+//                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
+//                        $result_set_practice = mysqli_query($database, $sql_set_practice);
+//                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
+                                    $practice_full_score = $row['fullScore'];
+                                    $practice_net_score = $row['net_score'];
+                                    if ($practice_full_score != 0) { //check devide by zero
+                                        $current_scoreP = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
+                                    } else {
+                                        $current_score = 0;
+                                    }
+
+                                    echo '<td style="text-align: center;"><span class="text-info">' . $current_scoreP . '</span></td>';
+                                    $score_practice_final += round($current_scoreP, 2);
+                                }
+
+                                //gather_net
+                                //show score gather คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                                $net_score_gather = 0;
+                                $full_score_gather2 = 0;
+                                $sql = "SELECT * FROM set_gather_score WHERE key_year_subject = '$key_year_subject'";
+                                $result = mysqli_query($database, $sql);
+                                $row = mysqli_fetch_assoc($result);
+                                $net_score_gather += $row['net_score'];
+
+                                $sqlscoregater = "SELECT * FROM `set_score_gather_dynamic`  WHERE key_year_subject = '$key_year_subject'  ";
+                                $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+                                $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+
+                                if ($chknumscoregahter != 0) {
+                                    while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+                                        $full_score_gather2 += $row_resultsqlscoregather['fullscore'];
+                                    }
+                                    ?>
+                                    <td style="text-align: center;"><span
+                                                class="text-info"><? echo $score_gather_current ?></span></td>
+                                    <td style="text-align: center;"><span
+                                                class="text-info"><? echo round($scoregather, 2) ?> </span></td>
+
+                                    <?
+
+                                }
+                                //show score lecture midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                                $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by numofexam ";
+                                $resultsqlscore = mysqli_query($database, $sqlscore);
+                                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                                if ($chknumscore != 0) {
+
+                                    ?>
+                                    <td style="text-align: center;"><span
+                                                class="text-info"><? echo $score_lecture_midterm ?></span></td>
+                                    <?
+                                }
+
+                                //show score prac midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                                $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by set_exam ";
+                                $resultsqlscore = mysqli_query($database, $sqlscore);
+                                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                                if ($chknumscore != 0) {
+
+                                    ?>
+                                    <td style="text-align: center;"><span
+                                                class="text-info"><? echo $score_practice_midterm ?></span></td>
+                                    <?
+                                }
+
+                                //show score lec final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                                $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by numofexam ";
+                                $resultsqlscore = mysqli_query($database, $sqlscore);
+                                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                                if ($chknumscore != 0) {
+                                    ?>
+                                    <td style="text-align: center;"><span
+                                                class="text-info"><? echo $score_lecture_final ?></span></td>
+                                    <?
+                                }
+
+                                //show score prac final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+                                $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by set_exam ";
+                                $resultsqlscore = mysqli_query($database, $sqlscore);
+                                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                                if ($chknumscore != 0) {
+                                    ?>
+                                    <td style="text-align: center;"><span
+                                                class="text-info"><? echo $score_practice_final ?></span></td>
+                                    <?
+                                }
+
+
+                                $all = $scoregather + $score_lecture_midterm + $score_lecture_final + $score_practice_midterm + $score_practice_final;
+                                echo '<td style="text-align: center;"><span class="text-info">' . round($all, 2) . '</td>';
+                                //grade
                                 //grade
                                 $sql = "SELECT * FROM `set_grade_sec` WHERE key_year_sub ='$key_year_subject'";
                                 $result = mysqli_query($database, $sql);
@@ -512,35 +739,18 @@ else
                                         }
                                     }
                                 }
-                                $sqlinsertgrade = "UPDATE student SET grade= '$finalgrade' WHERE key_student = '$key_student'";
-                                $result = mysqli_query($database, $sqlinsertgrade);
-
-
-
-
-                                echo '<tr>';
-                                echo '<td style="text-align: center;">' . $i . '</td>';
-                                echo '<td style="">' . $id_student . '</td>';
-                                echo '<td style="">' . $student_name . '</td>';
-                                echo '<td style="">
-			                        <input type="text" 
-			                        onChange="editStatus(\'php/editStatus.php\',\'' . $key_student . '\',\'' . $str_status . '\',this) "
-			                    class="form-control" id="' . $str_status . '" name"' . $str_status . '" value="' . $current_status . '"></td>';
-                                echo '<td style="text-align: center;"><span class="text-info">' . $score_gather . '</span></td>';
-                                echo '<td style="text-align: center;"><span class="text-info">' . $score_lecture_midterm . '</span></td>';
-                                echo '<td style="text-align: center;"><span class="text-info">' . $score_practice_midterm . '</span></td>';
-                                echo '<td style="text-align: center;"><span class="text-info">' . $score_lecture_final . '</span></td>';
-                                echo '<td style="text-align: center;"><span class="text-info">' . $score_practice_final . '</span></td>';
-                                echo '<td style="text-align: center;"><span class="text-danger">' . $all . '</td>';
-                                echo '<td style="text-align: center;"><span class="text-danger">' . $finalgrade . '</td>';
+                                echo '<td style="text-align: center;"><span class="text-info">' . $finalgrade . '</td>';
+                                //                            echo '<td style="text-align: center;"><span class="text-info">' . $finalgrade . '</td>';
                                 echo '</tr>';
 
-                            }
-                        }
-                        ?>
-                        </thead>
-                    </table>
 
+                            }
+
+                        }
+
+                        ?>
+                        </tbody>
+                    </table>
 
                 </div>
 
@@ -551,60 +761,69 @@ else
     </div>
 </div>
 <br>
-<? preScore($key_year_subject);
 
+<? preScore($key_year_subject);
+//grade
+$As = 0;
+$Bps = 0;
+$Bs = 0;
+$Cps = 0;
+$Cs = 0;
+$Dps = 0;
+$Ds = 0;
+$Fs = 0;
 //graph
-$g30	=0;
-$g31	=0;
-$g32	=0;
-$g33	=0;
-$g34	=0;
-$g35	=0;
-$g36	=0;
-$g37	=0;
-$g38	=0;
-$g39	=0;
-$g40	=0;
-$g41	=0;
-$g42	=0;
-$g43	=0;
-$g44	=0;
-$g45	=0;
-$g46	=0;
-$g47	=0;
-$g48	=0;
-$g49	=0;
-$g50	=0;
-$g51	=0;
-$g52	=0;
-$g53	=0;
-$g54	=0;
-$g55	=0;
-$g56	=0;
-$g57	=0;
-$g58	=0;
-$g59	=0;
-$g60	=0;
-$g61	=0;
-$g62	=0;
-$g63	=0;
-$g64	=0;
-$g65	=0;
-$g66	=0;
-$g67	=0;
-$g68	=0;
-$g69	=0;
-$g70	=0;
-$g71	=0;
-$g72	=0;
-$g73	=0;
-$g74	=0;
-$g75	=0;
-$g76	=0;
-$g77	=0;
-$g78	=0;
-$g79	=0;
-$g80	=0;
+$g30 = 0;
+$g31 = 0;
+$g32 = 0;
+$g33 = 0;
+$g34 = 0;
+$g35 = 0;
+$g36 = 0;
+$g37 = 0;
+$g38 = 0;
+$g39 = 0;
+$g40 = 0;
+$g41 = 0;
+$g42 = 0;
+$g43 = 0;
+$g44 = 0;
+$g45 = 0;
+$g46 = 0;
+$g47 = 0;
+$g48 = 0;
+$g49 = 0;
+$g50 = 0;
+$g51 = 0;
+$g52 = 0;
+$g53 = 0;
+$g54 = 0;
+$g55 = 0;
+$g56 = 0;
+$g57 = 0;
+$g58 = 0;
+$g59 = 0;
+$g60 = 0;
+$g61 = 0;
+$g62 = 0;
+$g63 = 0;
+$g64 = 0;
+$g65 = 0;
+$g66 = 0;
+$g67 = 0;
+$g68 = 0;
+$g69 = 0;
+$g70 = 0;
+$g71 = 0;
+$g72 = 0;
+$g73 = 0;
+$g74 = 0;
+$g75 = 0;
+$g76 = 0;
+$g77 = 0;
+$g78 = 0;
+$g79 = 0;
+$g80 = 0;
 
 
 $g0 = 0;
@@ -614,130 +833,164 @@ $chknumfg = mysqli_num_rows($result_fg);
 $i = 0;
 
 if ($chknum != 0) {
-while ($row_fg = mysqli_fetch_array($result_fg)) {
-    $score_fg=$row_fg['all_score'];
-    //graph
-
-
-    if ($score_fg >= 0 && $score_fg <= 100) {
-        if ($score_fg >= 80) {
-            $g80++;
-        } else if ($score_fg >= 79) {
-            $g79++;
-        } else if ($score_fg >= 78) {
-            $g78++;
-        } else if ($score_fg >= 77) {
-            $g77++;
-        } else if ($score_fg >= 76) {
-            $g76++;
-        } else if ($score_fg >= 75) {
-            $g75++;
-        } else if ($score_fg >= 74) {
-            $g74++;
-        } else if ($score_fg >= 73) {
-            $g73++;
-        } else if ($score_fg >= 72) {
-            $g72++;
-        } else if ($score_fg >= 71) {
-            $g71++;
-        } else if ($score_fg >= 70) {
-            $g70++;
-        } else if ($score_fg >= 69) {
-            $g69++;
-        } else if ($score_fg >= 68) {
-            $g68++;
-        } else if ($score_fg >= 67) {
-            $g67++;
-        } else if ($score_fg >= 66) {
-            $g66++;
-        } else if ($score_fg >= 65) {
-            $g65++;
-        } else if ($score_fg >= 64) {
-            $g64++;
-        } else if ($score_fg >= 63) {
-            $g63++;
-        } else if ($score_fg >= 62) {
-            $g62++;
-        } else if ($score_fg >= 61) {
-            $g61++;
-        } else if ($score_fg >= 60) {
-            $g60++;
-        } else if ($score_fg >= 59) {
-            $g59++;
-        } else if ($score_fg >= 58) {
-            $g58++;
-        } else if ($score_fg >= 57) {
-            $g57++;
-        } else if ($score_fg >= 56) {
-            $g56++;
-        } else if ($score_fg >= 55) {
-            $g55++;
-        } else if ($score_fg >= 54) {
-            $g54++;
-        } else if ($score_fg >= 53) {
-            $g53++;
-        } else if ($score_fg >= 52) {
-            $g52++;
-        } else if ($score_fg >= 51) {
-            $g51++;
-        } else if ($score_fg >= 50) {
-            $g50++;
-        } else if ($score_fg >= 49) {
-            $g49++;
-        } else if ($score_fg >= 48) {
-            $g48++;
-        } else if ($score_fg >= 47) {
-            $g47++;
-        } else if ($score_fg >= 46) {
-            $g46++;
-        } else if ($score_fg >= 45) {
-            $g45++;
-        } else if ($score_fg >= 44) {
-            $g44++;
-        } else if ($score_fg >= 43) {
-            $g43++;
-        } else if ($score_fg >= 42) {
-            $g42++;
-        } else if ($score_fg >= 41) {
-            $g41++;
-        } else if ($score_fg >= 40) {
-            $g40++;
-        } else if ($score_fg >= 39) {
-            $g39++;
-        } else if ($score_fg >= 38) {
-            $g38++;
-        } else if ($score_fg >= 37) {
-            $g37++;
-        } else if ($score_fg >= 36) {
-            $g36++;
-        } else if ($score_fg >= 35) {
-            $g35++;
-        } else if ($score_fg >= 34) {
-            $g34++;
-        } else if ($score_fg >= 33) {
-            $g33++;
-        } else if ($score_fg >= 32) {
-            $g32++;
-        } else if ($score_fg >= 31) {
-            $g31++;
-        } else if ($score_fg >= 30) {
-            $g30++;
-
-
-
-        } else {
-            $g0++;
+    while ($row_fg = mysqli_fetch_array($result_fg)) {
+        $score_fg = $row_fg['all_score'];
+        $all = $row_fg['all_score'];
+        //grade
+        $sql = "SELECT * FROM `set_grade_sec` WHERE key_year_sub ='$key_year_subject'";
+        $result = mysqli_query($database, $sql);
+        while ($row = mysqli_fetch_array($result)) {
+            if ($all >= 0 && $all <= 100) {
+                if ($all >= $row['grade_a']) {
+                    $finalgrade = "A";
+                    $As++;
+                } else if ($all >= $row['grade_bplus']) {
+                    $finalgrade = "B+";
+                    $Bps++;
+                } else if ($all >= $row['grade_b']) {
+                    $finalgrade = "B";
+                    $Bs++;
+                } else if ($all >= $row['grade_cplus']) {
+                    $finalgrade = "C+";
+                    $Cps++;
+                } else if ($all >= $row['grade_c']) {
+                    $finalgrade = "C";
+                    $Cs++;
+                } else if ($all >= $row['grade_dplus']) {
+                    $finalgrade = "D+";
+                    $Dps++;
+                } else if ($all >= $row['grade_d']) {
+                    $finalgrade = "D+";
+                    $Ds++;
+                } else {
+                    $finalgrade = "F";
+                    $Fs++;
+                }
+            }
         }
+        //graph
+
+
+        if ($score_fg >= 0 && $score_fg <= 100) {
+            if ($score_fg >= 80) {
+                $g80++;
+            } else if ($score_fg >= 79) {
+                $g79++;
+            } else if ($score_fg >= 78) {
+                $g78++;
+            } else if ($score_fg >= 77) {
+                $g77++;
+            } else if ($score_fg >= 76) {
+                $g76++;
+            } else if ($score_fg >= 75) {
+                $g75++;
+            } else if ($score_fg >= 74) {
+                $g74++;
+            } else if ($score_fg >= 73) {
+                $g73++;
+            } else if ($score_fg >= 72) {
+                $g72++;
+            } else if ($score_fg >= 71) {
+                $g71++;
+            } else if ($score_fg >= 70) {
+                $g70++;
+            } else if ($score_fg >= 69) {
+                $g69++;
+            } else if ($score_fg >= 68) {
+                $g68++;
+            } else if ($score_fg >= 67) {
+                $g67++;
+            } else if ($score_fg >= 66) {
+                $g66++;
+            } else if ($score_fg >= 65) {
+                $g65++;
+            } else if ($score_fg >= 64) {
+                $g64++;
+            } else if ($score_fg >= 63) {
+                $g63++;
+            } else if ($score_fg >= 62) {
+                $g62++;
+            } else if ($score_fg >= 61) {
+                $g61++;
+            } else if ($score_fg >= 60) {
+                $g60++;
+            } else if ($score_fg >= 59) {
+                $g59++;
+            } else if ($score_fg >= 58) {
+                $g58++;
+            } else if ($score_fg >= 57) {
+                $g57++;
+            } else if ($score_fg >= 56) {
+                $g56++;
+            } else if ($score_fg >= 55) {
+                $g55++;
+            } else if ($score_fg >= 54) {
+                $g54++;
+            } else if ($score_fg >= 53) {
+                $g53++;
+            } else if ($score_fg >= 52) {
+                $g52++;
+            } else if ($score_fg >= 51) {
+                $g51++;
+            } else if ($score_fg >= 50) {
+                $g50++;
+            } else if ($score_fg >= 49) {
+                $g49++;
+            } else if ($score_fg >= 48) {
+                $g48++;
+            } else if ($score_fg >= 47) {
+                $g47++;
+            } else if ($score_fg >= 46) {
+                $g46++;
+            } else if ($score_fg >= 45) {
+                $g45++;
+            } else if ($score_fg >= 44) {
+                $g44++;
+            } else if ($score_fg >= 43) {
+                $g43++;
+            } else if ($score_fg >= 42) {
+                $g42++;
+            } else if ($score_fg >= 41) {
+                $g41++;
+            } else if ($score_fg >= 40) {
+                $g40++;
+            } else if ($score_fg >= 39) {
+                $g39++;
+            } else if ($score_fg >= 38) {
+                $g38++;
+            } else if ($score_fg >= 37) {
+                $g37++;
+            } else if ($score_fg >= 36) {
+                $g36++;
+            } else if ($score_fg >= 35) {
+                $g35++;
+            } else if ($score_fg >= 34) {
+                $g34++;
+            } else if ($score_fg >= 33) {
+                $g33++;
+            } else if ($score_fg >= 32) {
+                $g32++;
+            } else if ($score_fg >= 31) {
+                $g31++;
+            } else if ($score_fg >= 30) {
+                $g30++;
+
+
+            } else {
+                $g0++;
+            }
+        }
+
     }
-
-}}
+}
 
 ?>
+
 <?php
-$sql = "DROP TABLE all_prescore";
-$result = mysqli_query($database,$sql);
-?>
-?>
+//$sql = "DROP TABLE all_prescore";
+//$result = mysqli_query($database, $sql);
+//?>
+
 <? function preScore($key_year_subject)
 {
     $host = "localhost";
@@ -753,7 +1006,7 @@ $result = mysqli_query($database,$sql);
 
     $sql = "CREATE TABLE all_prescore (
 		id_student VARCHAR(10) NOT NULL PRIMARY KEY,
-	    name_student VARCHAR(100) NOT NULL,
+	    name_student VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci  NOT NULL,
 		major VARCHAR(3) NULL,
 		sec VARCHAR(3) NOT NULL,
 		status_w VARCHAR(1) NULL,
@@ -767,8 +1020,169 @@ $result = mysqli_query($database,$sql);
     mysqli_query($database, "SET NAMES UTF8");
     $result = mysqli_query($database, $sql);
 
+
+    $full_score_gather = 0;
+    $full_score_lecture_mid = 0;
+    $full_score_lecture_fin = 0;
+    $full_score_practice_mid = 0;
+    $full_score_practice_fin = 0;
+    $full_score = 0;
+    $finalgrade = 0;
+    $sqlscoregater = "SELECT * FROM `set_score_gather_dynamic`  WHERE key_year_subject = '$key_year_subject'  ";
+    $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+    $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+    if ($chknumscoregahter != 0) {
+        while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+            ?>
+
+            <? $full_score_gather += $row_resultsqlscoregather['fullscore'];
+
+            ?>
+        <? }
+        $full_score += $full_score_gather;
+
+    } ?>
+
+
+    <!--                        //headtable score lecture midterm-->
+    <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by numofexam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+        while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+
+            <? $full_score_lecture_mid += $row_resultsqlscore['score'];
+            ?>
+            <?
+        }
+        $full_score += $full_score_lecture_mid;
+    } ?>
+    <!--                        //headtable score practice midterm-->
+    <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by set_exam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+        while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+
+            <? $full_score_practice_mid += $row_resultsqlscore['score'];
+
+            ?>
+            <?
+        }
+        $full_score += $full_score_practice_mid;
+    } ?>
+
+    <!--                        //headtable score lecture final-->
+    <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by numofexam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+        while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+
+            <? $full_score_lecture_fin += $row_resultsqlscore['score'];
+
+            ?>
+            <?
+        }
+        $full_score += $full_score_lecture_fin;
+    } ?>
+    <!--                        //headtable score practice final-->
+    <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by set_exam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+        while ($row_resultsqlscore = mysqli_fetch_array($resultsqlscore)) { ?>
+
+            <? $full_score_practice_fin += $row_resultsqlscore['score'];
+
+            ?>
+            <?
+        }
+        $full_score += $full_score_practice_fin;
+    } ?>
+    <?
+    //gather_net
+    //headtable score gather คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+    $net_score_gather = 0;
+    $full_score_gather2 = 0;
+    $sql = "SELECT * FROM set_gather_score WHERE key_year_subject = '$key_year_subject'";
+    $result = mysqli_query($database, $sql);
+    $row = mysqli_fetch_assoc($result);
+    $net_score_gather += $row['net_score'];
+
+    $sqlscoregater = "SELECT * FROM `set_score_gather_dynamic`  WHERE key_year_subject = '$key_year_subject'  ";
+    $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+    $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+    if ($chknumscoregahter != 0) {
+        while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+            $full_score_gather2 += $row_resultsqlscoregather['fullscore'];
+        }
+        ?>
+
+        <?
+
+    } ?>
+
+
+    <!--                        //headtable score lecture midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+    <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by numofexam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+
+        ?>
+
+        <?
+    } ?>
+
+    <!--                        //headtable score prac midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+    <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by set_exam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+
+        ?>
+
+        <?
+    } ?>
+
+    <!--                        //headtable score lec final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+    <? $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by numofexam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+        ?>
+
+        <?
+    } ?>
+
+    <!--                        //headtable score prac final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+    <? $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by set_exam ";
+    $resultsqlscore = mysqli_query($database, $sqlscore);
+    $chknumscore = mysqli_num_rows($resultsqlscore);
+
+    if ($chknumscore != 0) {
+        ?>
+
+        <?
+    } ?>
+
+    <!--                        //headtable score all คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+
+
+    <?
     $sql = "SELECT * FROM sec_subject WHERE key_year_subject = '$key_year_subject' ORDER BY number";
     $result_sec = mysqli_query($database, $sql);
+    $i = 0;
     while ($row_sec = mysqli_fetch_array($result_sec)) {
         $number = $row_sec['number'];
         $key_sec = $row_sec['key_sec_subject'];
@@ -779,146 +1193,275 @@ $result = mysqli_query($database,$sql);
             $number = $row_sec['number'];
             $key_year_subject = $row_sec['key_year_subject'];
         }
-
-
         $sql = "SELECT * FROM student WHERE key_sec_subject = '$key_sec'";
         $result_student = mysqli_query($database, $sql);
         $chknum = mysqli_num_rows($result_student);
-        $i = 0;
+
         if ($chknum != 0) {
             while ($row_student = mysqli_fetch_array($result_student)) {
                 $i++;
                 $key_student = $row_student['key_student'];
                 $id_student = $row_student['id_student'];
-                $name_student = $row_student['name_student'];
+                $student_name = $row_student['name_student'];
                 $major = $row_student['major'];
-                $status_w = $row_student['status'];
+                $current_status = $row_student['status'];
+                $score_gather_current = 0;
                 $score_gather = 0;
+                $scoregather = 0;
+                $gather_full_score = 0;
                 $score_lecture_midterm = 0;
                 $score_lecture_final = 0;
                 $score_practice_midterm = 0;
                 $score_practice_final = 0;
                 $all = 0;
 
-//get score gather
-                $sql_score_gather = "SELECT * FROM set_gather_score WHERE key_year_subject = '$key_year_subject'";
-                $result_score_gather = mysqli_query($database, $sql_score_gather);
-                $row_score_gather = mysqli_fetch_assoc($result_score_gather);
-                $gather_full_score = $row_score_gather['full_score'];
-                $gather_net_score = $row_score_gather['net_score'];
+//$key_year_subject = $_POST['key_year_subject'];
+//$key_student = $_POST['key_student'];
 
-                $sql = "SELECT * FROM score_gather WHERE key_student = '$key_student'";
+                $str_status = "s_" . $key_student;
+                $all = $score_gather + $score_lecture_midterm + $score_lecture_final + $score_practice_midterm + $score_practice_final;
+
+                //grade
+                $sql = "SELECT * FROM `set_grade_sec` WHERE key_year_sub ='$key_year_subject'";
                 $result = mysqli_query($database, $sql);
-                while ($row = mysqli_fetch_assoc($result)) {
-                    $score_gather += $row['score'];
-                }
-                if ($gather_full_score != 0) {
-                    $score_gather = (floatval($score_gather) / floatval($gather_full_score)) * floatval($gather_net_score);
-                } else {
-                    $score_gather = 0;
+                while ($row = mysqli_fetch_array($result)) {
+                    if ($all >= 0 && $all <= 100) {
+                        if ($all >= $row['grade_a']) {
+                            $finalgrade = "A";
+                        } else if ($all >= $row['grade_bplus']) {
+                            $finalgrade = "B+";
+                        } else if ($all >= $row['grade_b']) {
+                            $finalgrade = "B";
+                        } else if ($all >= $row['grade_cplus']) {
+                            $finalgrade = "C+";
+                        } else if ($all >= $row['grade_c']) {
+                            $finalgrade = "C";
+                        } else if ($all >= $row['grade_dplus']) {
+                            $finalgrade = "D+";
+                        } else if ($all >= $row['grade_d']) {
+                            $finalgrade = "D+";
+                        } else {
+                            $finalgrade = "F";
+                        }
+                    }
                 }
 
-//get score lecture
-                $sql = "SELECT * FROM score_lecture
-	INNER JOIN set_lecture_exam 
-	ON set_lecture_exam.key_year_subject = '$key_year_subject' and set_lecture_exam.key_set_lExam = score_lecture.key_set_lExam 
-	WHERE key_student = '$key_student'";
+
+                //score gather dynamic
+                $sqlscoregater = "SELECT * FROM score_gather_dynamic
+	                        INNER JOIN set_score_gather_dynamic  ON set_score_gather_dynamic.key_year_subject = '$key_year_subject' 
+	                        and set_score_gather_dynamic.key_set_gather = score_gather_dynamic.key_set_gather WHERE key_student ='$key_student'  ";
+                $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+                $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+                if ($chknumscoregahter != 0) {
+
+                    while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+                        if ($row_resultsqlscoregather != NULL) {
+                            if ($row_resultsqlscoregather['score'] == NULL) {
+                                $score_gather = 0;
+                            } else {
+                                $score_gather = $row_resultsqlscoregather['score'];
+                            }
+                        } else {
+                            $score_gather = 0;
+                        }
+
+                        $score_gather_current += $score_gather;
+
+                    }
+
+                    $scoregather = ($score_gather_current / $full_score_gather) * $net_score_gather;
+
+                }
+                $sql = "SELECT numofexam,fullScore,net_score, SUM(score) as score FROM score_lecture	INNER JOIN set_lecture_exam ON set_lecture_exam.key_year_subject = '$key_year_subject' 
+                            and set_lecture_exam.key_set_lExam = score_lecture.key_set_lExam WHERE key_student = '$key_student' and sub_semester ='midterm' GROUP by numofexam";
                 $result = mysqli_query($database, $sql);
                 $num = mysqli_num_rows($result);
                 while ($row = mysqli_fetch_array($result)) {
-                    if ($row['sub_semester'] == "midterm") {
-                        $current_score = $row['score'];
-                        $key_set_lExam = $row['key_set_lExam'];
-                        $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
-                        $result_score_lecture = mysqli_query($database, $sql_score_lecture);
-                        $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
-                        $lecture_full_score = $row_score_lecture['fullScore'];
-                        $lecture_net_score = $row_score_lecture['net_score'];
-                        if ($lecture_full_score != 0) { //check devide by zero
-                            $current_score = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
-                        } else {
-                            $current_score = 0;
-                        }
-                        $score_lecture_midterm += $current_score;
-                    } else if ($row['sub_semester'] == "final") {
-                        $current_score = $row['score'];
-                        $key_set_lExam = $row['key_set_lExam'];
-                        $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
-                        $result_score_lecture = mysqli_query($database, $sql_score_lecture);
-                        $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
-                        $lecture_full_score = $row_score_lecture['fullScore'];
-                        $lecture_net_score = $row_score_lecture['net_score'];
-                        if ($lecture_full_score != 0) { //check devide by zero
-                            $current_score = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
-                        } else {
-                            $current_score = 0;
-                        }
-                        $score_lecture_final += $current_score;
+
+                    $current_score = $row['score'];
+                    //  $key_set_lExam = $row['key_set_lExam'];
+//                            $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
+//                            $result_score_lecture = mysqli_query($database, $sql_score_lecture);
+//                            $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
+                    $lecture_full_score = $row['fullScore'];
+                    $lecture_net_score = $row['net_score'];
+                    if ($lecture_full_score != 0) { //check devide by zero
+                        $current_scoreL = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
+                    } else {
+                        $current_score = "ไม่ออก";
                     }
+
+
+                    $score_lecture_midterm += $current_scoreL;
+
                 }
 
-//get score practice
-                $sql = "SELECT * FROM score_practice
-	INNER JOIN set_practice_exam 
-	ON set_practice_exam.key_year_subject = '$key_year_subject' and set_practice_exam.key_set_pExam = score_practice.key_set_pExam 
-	WHERE key_student = '$key_student'";
+
+                $sql = "SELECT numofexam,set_exam,fullScore,net_score, SUM(score) as score FROM score_practice INNER JOIN set_practice_exam ON set_practice_exam.key_year_subject = '$key_year_subject' 
+                          and set_practice_exam.key_set_pExam = score_practice.key_set_pExam WHERE key_student = '$key_student'  and sub_semester ='midterm' GROUP by set_exam";
                 $result = mysqli_query($database, $sql);
                 while ($row = mysqli_fetch_array($result)) {
-                    if ($row['sub_semester'] == "midterm") {
-                        $current_score = $row['score'];
-                        $key_set_pExam = $row['key_set_pExam'];
 
-                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
-                        $result_set_practice = mysqli_query($database, $sql_set_practice);
-                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
-                        $practice_full_score = $row_set_practice['fullScore'];
-                        $practice_net_score = $row_set_practice['net_score'];
-                        if ($practice_full_score != 0) { //check devide by zero
-                            $current_score = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
-                        } else {
-                            $current_score = 0;
-                        }
-                        $score_practice_midterm += $current_score;
-                    } else if ($row['sub_semester'] == "final") {
-                        $current_score = $row['score'];
-                        $key_set_pExam = $row['key_set_pExam'];
-
-                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
-                        $result_set_practice = mysqli_query($database, $sql_set_practice);
-                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
-                        $practice_full_score = $row_set_practice['fullScore'];
-                        $practice_net_score = $row_set_practice['net_score'];
-                        if ($practice_full_score != 0) { //check devide by zero
-                            $current_score = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
-                        } else {
-                            $current_score = 0;
-                        }
-                        $score_practice_final += $current_score;
+                    $current_score = $row['score'];
+//                        $key_set_pExam = $row['key_set_pExam'];
+//
+//                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
+//                        $result_set_practice = mysqli_query($database, $sql_set_practice);
+//                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
+                    $practice_full_score = $row['fullScore'];
+                    $practice_net_score = $row['net_score'];
+                    if ($practice_full_score != 0) { //check devide by zero
+                        $current_scoreP = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
+                    } else {
+                        $current_score = 0;
                     }
+
+
+                    $score_practice_midterm += round($current_scoreP, 2);
                 }
-                $all = $score_gather + $score_lecture_midterm + $score_lecture_final + $score_practice_midterm + $score_practice_final;
-                round($all);
+
+                $sql = "SELECT numofexam,fullScore,net_score, SUM(score) as score FROM score_lecture	INNER JOIN set_lecture_exam ON set_lecture_exam.key_year_subject = '$key_year_subject' 
+                            and set_lecture_exam.key_set_lExam = score_lecture.key_set_lExam WHERE key_student = '$key_student' and sub_semester ='final' GROUP by numofexam";
+                $result = mysqli_query($database, $sql);
+                $num = mysqli_num_rows($result);
+                while ($row = mysqli_fetch_array($result)) {
+
+                    $current_score = $row['score'];
+                    //  $key_set_lExam = $row['key_set_lExam'];
+//                            $sql_score_lecture = "SELECT * FROM set_lecture_exam WHERE key_set_lExam = '$key_set_lExam'";
+//                            $result_score_lecture = mysqli_query($database, $sql_score_lecture);
+//                            $row_score_lecture = mysqli_fetch_assoc($result_score_lecture);
+                    $lecture_full_score = $row['fullScore'];
+                    $lecture_net_score = $row['net_score'];
+                    if ($lecture_full_score != 0) { //check devide by zero
+                        $current_scoreL = (floatval($current_score) / floatval($lecture_full_score)) * floatval($lecture_net_score);
+                    } else {
+                        $current_score = "ไม่ออก";
+                    }
+
+
+                    $score_lecture_final += round($current_scoreL, 2);
+                }
+
+
+                $sql = "SELECT numofexam,set_exam,fullScore,net_score, SUM(score) as score FROM score_practice INNER JOIN set_practice_exam ON set_practice_exam.key_year_subject = '$key_year_subject' 
+                          and set_practice_exam.key_set_pExam = score_practice.key_set_pExam WHERE key_student = '$key_student'  and sub_semester ='final' GROUP by set_exam";
+                $result = mysqli_query($database, $sql);
+                while ($row = mysqli_fetch_array($result)) {
+
+                    $current_score = $row['score'];
+//                        $key_set_pExam = $row['key_set_pExam'];
+//
+//                        $sql_set_practice = "SELECT * FROM set_practice_exam WHERE key_set_pExam = '$key_set_pExam'";
+//                        $result_set_practice = mysqli_query($database, $sql_set_practice);
+//                        $row_set_practice = mysqli_fetch_assoc($result_set_practice);
+                    $practice_full_score = $row['fullScore'];
+                    $practice_net_score = $row['net_score'];
+                    if ($practice_full_score != 0) { //check devide by zero
+                        $current_scoreP = (floatval($current_score) / floatval($practice_full_score)) * floatval($practice_net_score);
+                    } else {
+                        $current_score = 0;
+                    }
+
+
+                    $score_practice_final += round($current_scoreP, 2);
+                }
+
+                //gather_net
+                //show score gather คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                $net_score_gather = 0;
+                $full_score_gather2 = 0;
+                $sql = "SELECT * FROM set_gather_score WHERE key_year_subject = '$key_year_subject'";
+                $result = mysqli_query($database, $sql);
+                $row = mysqli_fetch_assoc($result);
+                $net_score_gather += $row['net_score'];
+
+                $sqlscoregater = "SELECT * FROM `set_score_gather_dynamic`  WHERE key_year_subject = '$key_year_subject'  ";
+                $resultsqlscoregather = mysqli_query($database, $sqlscoregater);
+                $chknumscoregahter = mysqli_num_rows($resultsqlscoregather);
+
+
+                if ($chknumscoregahter != 0) {
+                    while ($row_resultsqlscoregather = mysqli_fetch_array($resultsqlscoregather)) {
+                        $full_score_gather2 += $row_resultsqlscoregather['fullscore'];
+                    }
+                    ?>
+
+
+                    <?
+
+                }
+                //show score lecture midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by numofexam ";
+                $resultsqlscore = mysqli_query($database, $sqlscore);
+                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                if ($chknumscore != 0) {
+
+                    ?>
+
+                    <?
+                }
+
+                //show score prac midterm คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'midterm' GROUP by set_exam ";
+                $resultsqlscore = mysqli_query($database, $sqlscore);
+                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                if ($chknumscore != 0) {
+
+                    ?>
+
+                    <?
+                }
+
+                //show score lec final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น
+                $sqlscore = "SELECT numofexam, SUM(net_score) as score FROM `set_lecture_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by numofexam ";
+                $resultsqlscore = mysqli_query($database, $sqlscore);
+                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                if ($chknumscore != 0) {
+                    ?>
+
+                    <?
+                }
+
+                //show score prac final คะแนนรวมเพื่อให้แสดงเฉพาะเวลามีการกำหนดคะแนนแล้วเท่านั้น-->
+                $sqlscore = "SELECT numofexam,set_exam, SUM(net_score) as score FROM `set_practice_exam` WHERE key_year_subject = '$key_year_subject' and sub_semester = 'final' GROUP by set_exam ";
+                $resultsqlscore = mysqli_query($database, $sqlscore);
+                $chknumscore = mysqli_num_rows($resultsqlscore);
+
+                if ($chknumscore != 0) {
+                    ?>
+
+                    <?
+                }
+
+
+                $all = $scoregather + $score_lecture_midterm + $score_lecture_final + $score_practice_midterm + $score_practice_final;
 
                 $sql = "INSERT INTO all_prescore (id_student,name_student,major,sec,status_w,gather,lecture_mid,practice_mid,lecture_final,practice_final
-	,all_score) VALUES('$id_student','$name_student','$major','$number','$status_w','$score_gather','$score_lecture_midterm'
+	,all_score) VALUES('$id_student','$student_name','$major','$number','$current_status','$scoregather','$score_lecture_midterm'
 	,'$score_practice_midterm','$score_lecture_final','$score_practice_final','$all')";
                 $result = mysqli_query($database, $sql);
+
+
             }
+
         }
-
     }
-
-
 }
 
 ?>
-
 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">    google.load("visualization", "1", {packages: ["corechart"]});
     google.setOnLoadCallback(drawChart);
+    google.setOnLoadCallback(drawChart2);
 
     function drawChart() {
         // สร้างตัวแปร array เก็บค่า ข้อมูล
@@ -999,6 +1542,44 @@ $result = mysqli_query($database,$sql);
 
         // สร้างกราฟแนวตั้ง แสดงใน div id = chart_div
         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options); // สร้างกราฟ
+
+    }
+
+    function drawChart2() {
+        // สร้างตัวแปร array เก็บค่า ข้อมูล
+        var dataArray1 = [
+            ['เกรด', 'จำนวน'],
+            ['A',  <? echo $As ?>],
+            ['B+',  <? echo $Bps?>],
+            ['B',  <? echo $Bs ?>],
+            ['C+',  <? echo $Cps ?>],
+            ['C',  <? echo $Cs ?>],
+            ['D+',  <? echo $Dps ?>],
+            ['D',  <? echo $Ds ?>],
+            ['F',  <? echo $Fs ?>]
+
+
+        ];
+
+        // แปลงข้อมูลจาก array สำหรับใช้ในการสร้าง กราฟ
+        var data = google.visualization.arrayToDataTable(dataArray1);
+
+        // ตั้งค่าต่างๆ ของกราฟ
+        var options = {
+
+            title: "กราฟแสดงค่าความถี่เกรด",
+            hAxis: {title: 'ช่วงเกรด', titleTextStyle: {color: 'red'}},
+            vAxis: {title: 'ความถี่', titleTextStyle: {color: 'blue'}},
+            width: 1100,
+            height: 600,
+            bar: {groupWidth: "50%"},
+            legend: {position: 'center', maxLines: 3},
+            tooltip: {trigger: 'select'}
+        };
+
+        // สร้างกราฟแนวตั้ง แสดงใน div id = chart_div
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
         chart.draw(data, options); // สร้างกราฟ
 
     }

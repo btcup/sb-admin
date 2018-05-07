@@ -237,11 +237,12 @@ function querySecScoreDynamic($database)
 
     $sql = "SELECT * FROM year_subject WHERE key_year = '$key_year'";
     $result_year = mysqli_query($database,$sql);
+    $i = 0;
     while($row_year = mysqli_fetch_array($result_year))
     {
 
         $key_year_subject = $row_year['key_year_subject'];
-        $i = 0;
+
         $sql = "SELECT DISTINCT key_set_gather,nameScore,fullScore,key_year_subject,enable_score FROM set_score_gather_dynamic WHERE id_teacher = '$id_teacher' 
 			and key_year_subject = '$key_year_subject' ORDER BY key_year_subject DESC";
         $result = mysqli_query($database,$sql);

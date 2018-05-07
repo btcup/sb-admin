@@ -14,8 +14,11 @@ if (isset($_POST['k_y_s']))
 else
     $key_year_subject = $_GET['k_y_s'];
 ?>
-
+<div class="card-header">
+    <a class="fa fa-table"> จัดชุดข้อสอบปฎิบัติ</a>
+</div>
 <div id="mainUser" class="container" >
+
     <?
     $sql = "SELECT * FROM year_subject WHERE key_year_subject = '$key_year_subject'";
     $rowyearsubject = mysqli_fetch_assoc(mysqli_query($database, $sql));
@@ -72,7 +75,7 @@ else
     $chk_num = mysqli_num_rows($result);
     if ($chk_num != 0) {
         ?>
-        <table class="table table-striped" style="width: 1100px; margin: auto;">
+        <table class="table table-striped" id= "TB3" style="width: 1100px; margin: auto;">
             <thead>
             <tr>
                 <th style="width: 150px; text-align: center;">Sub-semester</th>
@@ -81,6 +84,8 @@ else
                 <th style="width: 200px; text-align: center;">จำนวนข้อ</th>
                 <th style="margin: auto; text-align: center;">Action</th>
             </tr>
+            </thead>
+            <tbody>
             <?
             while ($row = mysqli_fetch_array($result)) {
                 $sub_semester = $row['sub_semester'];
@@ -88,7 +93,7 @@ else
                 $round = $row['numofexam'];
 
                 $sql = "SELECT * FROM set_practice_exam WHERE key_year_subject = '$key_year_subject' and sub_semester = 
-			'$sub_semester' and set_exam = '$set'ORDER BY sub_semester DESC,set_exam,numofexam";
+			'$sub_semester' and set_exam = '$set' and numofexam = '$round' ORDER BY sub_semester DESC,set_exam,numofexam";
                 $result_article = mysqli_query($database, $sql);
                 $num_article = mysqli_num_rows($result_article);
 
@@ -96,21 +101,22 @@ else
 
                 echo '<td style="text-align: center;">' . $sub_semester . '</td>';
                 echo '<td style="text-align: center;">' . $round . '</td>';
-                echo '<td style="text-align: center;"><a href="#" onClick="loadSetPractice(\'formSetExam.php\',\'mainUser\',\'' . $key_year_subject . '\',\'' . $sub_semester . '\',\'' . $set . '\')">' . $set . '</a></td>';
+                echo '<td style="text-align: center;"><a href="#" onClick="loadSetPractice2(\'formSetExam.php\',\'mainUser\',\'' . $key_year_subject . '\',\'' . $sub_semester . '\',\'' . $set . '\',\'' . $round . '\')">' . $set . '</a></td>';
                 echo '<td style="text-align: center;">' . $num_article . '</td>';
                 echo '<td style="text-align: center;">
 			<ol class="breadcrumb">
 			 <div id="HighJa">
 			  <li class="IL"><a href="#" onClick="loadSetPractice2(\'formSetExam.php\',\'mainUser\',\'' . $key_year_subject . '\',\'' . $sub_semester . '\',\'' . $set . '\',\'' . $round . '\')" title="แก้ไข"><span class="fa fa-edit"></span></a></li>
-			  <li class="IL"><a href="#" onClick="deletePractice(\'php/deletePractice.php\',\'mainUser\',\'' . $key_year_subject . '\',\'' . $sub_semester . '\',\'' . $set . '\',\'1\')" title="ลบ"><span class="fa fa-trash"></span></a></li>
+			  <li class="IL"><a href="#" onClick="deletePractice_2(\'php/deletePractice.php\',\'mainUser\',\'' . $key_year_subject . '\',\'' . $sub_semester . '\',\'' . $set . '\',\'1\')" title="ลบ"><span class="fa fa-trash"></span></a></li>
 		  	</div>
 		  	</ol>
 			</td>';
                 echo '</tr>';
             }
             ?>
-            </thead>
+            </tbody>
         </table>
+
         <?
         if ($sub_semester == "midterm") {
             ?>
@@ -211,6 +217,17 @@ else
         line-height: 20px;
     }
 </style>
+
+<script>
+
+    var tb3 = null;
+
+
+        tb3= $('#TB3').DataTable();
+
+
+</script>
+
 
 <br><br><br><br><br><br>
 </body>

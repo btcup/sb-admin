@@ -12,11 +12,13 @@ if(isset($_POST['key_year_subject']))
 {
 	$key_year_subject = $_POST['key_year_subject'];
 	$key_round = $_POST['key_round'];
+    $numofexam = $_POST['num'];
 }
 else if(isset($_GET['k_y_s']))
 {
 	$key_year_subject = $_GET['k_y_s'];
 	$key_round = $_GET['key_round'];
+    $numofexam = $_GET['num'];
 }
 
 $sql = "SELECT * FROM round_exam WHERE key_round = '$key_round'";
@@ -29,8 +31,12 @@ while($row = mysqli_fetch_array($result))
 	$sub_semester = $row['sub_semester'];
 }
 ?>
-<br><br><br>
-<a href="#" onClick="loadScopeRound('showScopeRound.php','mainUser','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>')"><span class="glyphicon glyphicon-arrow-left">BACK</span></a>
+
+<div class="card-header">
+    <a class="fa fa-table"> จัดรอบการสอบปฎิบัติ</a>
+</div>
+<div id="mainUser" class="container">
+<a href="#" onClick="reloadPage_2('formFirstRound.php','mainUser','<? echo $key_year_subject; ?>')"><span class="fa fa-arrow-left">BACK</span></a>
 <br>
 <label>รอบการสอบ: <span class="text-info"><? echo $date." ".$time." ".$room; ?></span></label>
 <br><br>
@@ -40,7 +46,7 @@ while($row = mysqli_fetch_array($result))
         <input type="text" class="form-control" id="txid" name="txid" placeholder="กรอกรหัสนิสิต" style="width: 150px;">
         
    		<input type="button" class="btn btn-info" id="btadd" name="btadd" value="เพิ่มข้อมูล" 
-        onClick="addStudentToRound('php/addStudentToRound.php','resultAddStudent','<? echo $key_round; ?>','<? echo $key_year_subject ?>','<? echo $sub_semester ?>')" style="width: 150px;" >
+        onClick="addStudentToRound_2('php/addStudentToRound.php','resultAddStudent','<? echo $key_round; ?>','<? echo $key_year_subject ?>','<? echo $sub_semester ?>')" style="width: 150px;" >
 </form>
 <br>
 <table class="table table-striped" style="width: 800px; margin: auto;">
@@ -76,7 +82,7 @@ while($row = mysqli_fetch_array($result))
 				  if($chk_request == 0)
 				  	$request = "";
 			      else 
-				  	$request = '<span class="glyphicon glyphicon-ok"></span>';
+				  	$request = '<span class="fa fa-check"></span>';
 				 
 				  echo '<tr>';
 				  echo '<td>'.$i.'</td>';
@@ -85,8 +91,8 @@ while($row = mysqli_fetch_array($result))
 				  echo '<td>'.$number_sec.'</td>';
 				  echo '<td>'.$request.'</td>';
 				  echo '<td style=" text-align: center;">
-				  <a href="#" onClick="deleteStudentRound(\'php/actionEditStudentRound.php\',\''.$key_round.'\',\''.$key_student.'\'
-				  ,\''.$key_year_subject.'\',\'editRound.php\',\'mainUser\')"><span class="glyphicon glyphicon-trash"></span></a>
+				  <a href="#" onClick="deleteStudentRound_2(\'php/actionEditStudentRound.php\',\''.$key_round.'\',\''.$key_student.'\'
+				  ,\''.$key_year_subject.'\',\'editRound.php\',\'mainUser\')"><span class="fa fa-trash"></span></a>
 				  </td>';
 				  echo '</tr>';
 			  }
@@ -95,5 +101,6 @@ while($row = mysqli_fetch_array($result))
 		</thead>
 </table>
 <br><br>
+</div>
 </body>
 </html>

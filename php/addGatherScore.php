@@ -1,6 +1,6 @@
 <?
 include("config/connectDB.php");
-$key_year_subject = $_POST['key_year_subject'];
+$key_year_subject = $_POST['k_y_s'];
 $full_score = $_POST['full_score'];
 $net_score = $_POST['net_score'];
 

@@ -46,10 +46,10 @@ $num = $_POST['num'];
         <label class="col-sm-2 control-label"><? echo $num; ?></label>
 		<label class="col-sm-1 control-label"><? echo $j ?></label>
 		<div class="col-sm-2">
-		<input size="6" type="text" onChange="chkNum4(this,'')" id="<? echo "f_".$j; ?>" name="<? echo "f_".$j; ?>" class="form-control" placeholder="" >
+		<input size="6" type="text" onChange="chkNum4_2(this,'')" id="<? echo "f_".$j; ?>" name="<? echo "f_".$j; ?>" class="form-control" placeholder="" >
 		</div>
         <div class="col-sm-2">
-		<input size="6" type="text" onChange="chkNum4(this,'')" id="<? echo "n_".$j; ?>" name="<? echo "n_".$j; ?>" class="form-control" placeholder="" >
+		<input size="6" type="text" onChange="chkNum4_2(this,'')" id="<? echo "n_".$j; ?>" name="<? echo "n_".$j; ?>" class="form-control" placeholder="" >
 		</div>
 		<div class="col-sm-4">
 		<select id="<? echo "t_".$j; ?>" name="<? echo "t_".$j; ?>" class="form-control"><option value="">Please select...</option>
@@ -74,7 +74,8 @@ $num = $_POST['num'];
 		<?
 	}
 ?>
-<input type="button" onClick="addLectureExam2('php/addLectureExam.php','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $as; ?>','<? echo $ar; ?>','<? echo $num; ?>')" id="sbaddset" name="sbaddset" class="btn btn-primary" value="เพิ่มข้อมูล" style="width: 200px; margin:auto; ">
+<input type="button" onClick="addLectureExam2('php/addLectureExam.php','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $as; ?>','<? echo $ar; ?>','<? echo $num; ?>')"
+       id="sbaddset" name="sbaddset" class="btn btn-primary" value="เพิ่มข้อมูล" style="width: 200px; margin:auto; ">
 </form>
 <iframe id="showAddSet" name="showAddSet" style="width: 900px;; height: auto; margin-right: auto; 
 margin-left: auto; margin-bottom: auto; border: 0px solid #fff;"></iframe>

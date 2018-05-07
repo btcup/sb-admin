@@ -25,7 +25,7 @@ function addToPractice($key_set_pExam, $key_year_subject)
         $chknum = mysqli_num_rows($result_duplicate);
         if ($chknum == 0)
         {
-            $sql = "INSERT INTO score_practice (key_student, path ,key_set_pExam ) values ('$key_student','$null','$key_set_pExam')";
+            $sql = "INSERT INTO score_practice (key_student ,key_set_pExam ) values ('$key_student','$key_set_pExam')";
             $result_practice = mysqli_query($database,$sql);
         }
     }

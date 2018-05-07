@@ -1,45 +1,7 @@
 <!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head><title>from edit</title>
 
-    <title>from edit</title>
-
-    <!-- Bootstrap core CSS ***template***-->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom fonts for this template ***icon***-->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- Page level plugin CSS ***data table***-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-    <!-- Custom styles for this template ***left bar***-->
-    <link href="css/sb-admin.css" rel="stylesheet">
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Page level plugin JavaScript-->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <!--previous next-->
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-    <!--scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
-    <!--filter datatable-->
-    <script src="js/sb-admin-datatables.min.js"></script>
-    <!--chart-->
-    <script src="js/sb-admin-charts.min.js"></script>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap-switch.js"></script>
-    <script src="js/loadForm.js"></script>
-    <script src="js/changeActive.js"></script>
-</head>
 
 <body>
 <?
@@ -54,9 +16,16 @@ else if (isset($_GET['k_y_s']))
 //    $key_year_subject = $_GET['kys'];
 
 ?>
-<div id="divEdit" class="container" style="background-color: white; margin: auto" >
+<div id="divEdit"></div>
+<div class="card-header">
+    <a class="fa fa-table"> แก้ไขรายวิชา</a>
+</div>
+<div id="main" class="container"  >
     <br>
-    <!--<p>แก้ไขรายวิชา</p>-->
+
+    <p style="font-size:30px;">แก้ไขรายวิชา</p>
+    <br>
+
     <div id="placeSubject">
         <?
         $nmd = "แก้ไขรายวิชา";
@@ -83,46 +52,43 @@ else if (isset($_GET['k_y_s']))
         $head_teacher = $row_teacher['id_teacher'] . " " . $row_teacher['preName'] . $row_teacher['firstName'] . " " . $row_teacher['lastName'];
 
         ?>
+        <table class="table table-bordered" id="TB1" cellspacing="0">
+            <thead>
 
-        <form class="form-horizontal" role="form" method="post" style="width: 500px; ">
-            <div class="form-group form-inline">
-                <label class="col-sm-4 control-label"><span>ปีการศึกษา :</span></label>
-                <div class="col-sm-6">
-                    <label class="control-label"><span class="text-info"><? echo $year; ?></span></label>
-                </div>
-            </div>
-            <div class="form-group form-inline">
-                <label class="col-sm-4 control-label"><span>ภาคการศึกษา :</span></label>
-                <div class="col-sm-6">
-                    <label class="control-label"><span class="text-info"><? echo $semester; ?></span></label>
-                </div>
-            </div>
-            <div class="form-group form-inline">
-                <label class="col-sm-4 control-label"><span>รหัสวิชา :</span></label>
-                <div class="col-sm-8">
-                    <label class="control-label"><span class="text-info"><? echo $id_subject; ?></span></label>
-                </div>
-            </div>
-            <div class="form-group form-inline">
-                <label class="col-sm-4 control-label"><span class="">ชื่อวิชา :</span></label>
-                <div class="col-sm-8">
-                    <label class="control-label"><span class="text-info"><? echo $name_subject; ?></span></label>
-                </div>
-            </div>
-            <div class="form-group form-inline">
-                <label class="col-sm-4 control-label"><span class="">หัวหน้าวิชา :</span></label>
-                <div class="col-sm-8">
-                    <label class="control-label"><span class="text-info"><? echo $head_teacher; ?></span></label>
-                </div>
-            </div>
-        </form>
+            <tbody>
+            <td>ปีการศึกษา :</td>
+            <td class="text-info"><? echo $year; ?></td>
+
+            </tbody>
+            <tbody>
+            <td>ภาคการศึกษา :</td>
+            <td class="text-info"><? echo $semester; ?></td>
+
+            </tbody>
+            <tbody>
+            <td>รหัสวิชา :</td>
+            <td class="text-info"><? echo $id_subject; ?></td>
+
+            </tbody>
+            <tbody>
+            <td>ชื่อวิชา :</td>
+            <td class="text-info"><? echo $name_subject; ?></td>
+
+            </tbody>
+            <tbody>
+            <td>หัวหน้าวิชา :</td>
+            <td class="text-info"><? echo $head_teacher; ?></td>
+
+            </tbody>
+        </table>
+
     </div>
-    <br><br><br>
+    <br><br><br> <br><br><br> <br><br><br><br><br><br> <br>
     <div id="divSection2">
         <div style="width: 1200px; margin: auto;"><a href="#" title="Refresh"
-          onClick="reloadPage('formEdit.php','mainUser','<? echo $key_year_subject; ?>')"><span
+          onClick="reloadPage_2('formEdit.php','mainUser','<? echo $key_year_subject; ?>')"><span
                         class="fa fa-refresh" style="font-size: 35px"> </span></a></div>
-        <table class="table table-striped" style=" width: 1100px; margin: auto;">
+        <table class="table table-striped" id="TBSCORE" style=" width: 1100px; margin: auto;">
             <thead>
             <tr>
                 <th style="width: 50px; text-align: center;">#</th>
@@ -131,6 +97,8 @@ else if (isset($_GET['k_y_s']))
                 <th style="text-align: center;">จำนวนนักเรียน
                 <th style="width: 170px; text-align: center;">Action</th>
             </tr>
+            </thead>
+            <tbody>
             <?
             $sql = "SELECT * FROM sec_subject 
 		  LEFT JOIN teacher ON teacher.id_teacher = sec_subject.id_teacher
@@ -156,10 +124,10 @@ else if (isset($_GET['k_y_s']))
                 echo '<td style="text-align: center;">' . $i . '</td>';
                 echo '<td style="text-align: center;">' . $sec . '</td>';
                 echo '<td style="text-align: center;">' . $teacher . '</td>';
-                echo '<td style="text-align: center;"><a href="#" onClick="editSec(\'editSec.php\',\'divSection2\',\'' . $key_sec . '\')">' . $amount_student . '</a></td>';
+                echo '<td style="text-align: center;"><a href="#" onClick="editSec_2(\'editSec.php\',\'divSection2\',\'' . $key_sec . '\')">' . $amount_student . '</a></td>';
                 echo '<td style="text-align: center;"><ol class="breadcrumb">
-			  <li><a href="#" onClick="deleteSec(\'php/deleteSec.php\',\'mainUser\',\'' . $key_sec . '\'),loadEdit(\'formEdit.php\',\'mainUser\',\'' . $key_year_subject . '\')"><span class="fa fa-trash-o"></span>   &nbsp;  &nbsp;</a></li>
-			  <li><a href="#" onClick="editSec(\'editSec.php\',\'divSection2\',\'' . $key_sec . '\')" title="Edit"><span class="fa fa-edit">   &nbsp;  &nbsp;</span></a></li>
+			  <li><a href="#" onClick="deleteSec_2(\'php/deleteSec.php\',\'mainUser\',\'' . $key_sec . '\'),loadEdit(\'formEdit.php\',\'mainUser\',\'' . $key_year_subject . '\')"><span class="fa fa-trash-o"></span>   &nbsp;  &nbsp;</a></li>
+			  <li><a href="#" onClick="editSec_2(\'editSec.php\',\'divSection2\',\'' . $key_sec . '\')" title="Edit"><span class="fa fa-edit">   &nbsp;  &nbsp;</span></a></li>
 			   
 			  <li><a href="php/exportScoreSec.php?key_sec=' . $key_sec . '" title="Export score"><span class="fa fa-download">   &nbsp;  &nbsp;</span></a></li>    
 			  </ol>
@@ -167,7 +135,7 @@ else if (isset($_GET['k_y_s']))
                 echo '</tr>';
             }
             ?>
-            </thead>
+            </tbody>
         </table>
         <br>
     </div>
@@ -187,7 +155,7 @@ else if (isset($_GET['k_y_s']))
             <div class="form-group">
                 <label for="numsec">เลขหมู่ปฏิบัติ:</label>
                 <input class="form-control" style=" width: 70px;" type="text" id="numsec" name="numsec"
-                       onChange="chkNum(this)">
+                       onChange="chkNum_2(this)">
             </div>
             <div class="form-group">
                 <label for="slteacher">อาจารย์:</label>
@@ -224,38 +192,23 @@ else if (isset($_GET['k_y_s']))
 margin-left: auto; margin-bottom: auto; border: 0px solid #fff; margin: auto;"></iframe>
 
 
-
-
-<!-- Bootstrap core JavaScript-->
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
-<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-<!-- Page level plugin JavaScript-->
-<script src="vendor/chart.js/Chart.min.js"></script>
-<!-- Custom scripts for all pages-->
-<script src="js/sb-admin.min.js"></script>
-<!-- Custom scripts for this page-->
-<script src="js/sb-admin-charts.min.js"></script>
-
-
 <style>
-    .text-info {
-        color: #17a2b8 !important;
-        font-size: 18px;
-    }
+    /*.text-info {*/
+        /*color: #17a2b8 !important;*/
+        /*font-size: 18px;*/
+    /*}*/
 
-    *, ::after, ::before {
-        box-sizing: border-box;
-        font-size: 18px;
-    }
+    /**, ::after, ::before {*/
+        /*box-sizing: border-box;*/
+        /*font-size: 18px;*/
+    /*}*/
 
-    .navbar-brand {
-        float: left;
-        padding: 15px 15px;
-        font-size: 18px;
-        line-height: 20px;
-    }
+    /*.navbar-brand {*/
+        /*float: left;*/
+        /*padding: 15px 15px;*/
+        /*font-size: 18px;*/
+        /*line-height: 20px;*/
+    /*}*/
 
     .label-info {
         background: #FFFFFF;
@@ -263,5 +216,14 @@ margin-left: auto; margin-bottom: auto; border: 0px solid #fff; margin: auto;"><
 
 
 </style>
+<script>
+
+    var tbs = null;
+
+
+    tbs = $('#TBSCORE').DataTable();
+
+
+</script>
 </body>
 </html>

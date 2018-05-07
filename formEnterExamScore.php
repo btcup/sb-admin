@@ -41,7 +41,7 @@
     <script src="js/changeActive.js"></script>
 </head>
 
-<body>
+
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
 
 <div id="divview" class="container" style="background-color: lightblue;"
@@ -97,7 +97,7 @@ $full_score=$row['fullScore'];
         </table>
           <?
 		  $count_s_p = 0;
-		  $sql = "SELECT * FROM score_practice WHERE key_set_pExam = '$key_exam'";
+		  $sql = "SELECT * FROM score_practice WHERE key_set_pExam = '$key_exam' AND path IS NOT null";
 		  $result = mysqli_query($database,$sql);
 		  while($row = mysqli_fetch_array($result))
 		  {
@@ -140,8 +140,8 @@ $full_score=$row['fullScore'];
 			  		id="'.$key_student.'" value="'.$current_score.'" 
 					onChange="updateScore(\'php/updateScore.php\',\'myDiv\',\'score_practice\','.$str_key_student.','.$str_key_exam.',this,\''.$current_score.'\',\''.$full_score.'\')"></th>';
               echo '<th style="width: 60px;">
-			  		<a href="#" onClick="viewCode(event,\'viewCodeExam.php\',\''.$key_div.'\',\''.$path.'\',\''.$path_log.'\')"><span class="fa fa-chevron-circle-down"></a>
-			  		<a href="#" onClick="viewCode(event,\'emtry.php\',\''.$key_div.'\')"><span class="fa fa-chevron-circle-up"></span></a>
+			  		<a href="#" onClick="viewCode_2(event,\'viewCodeExam.php\',\''.$key_div.'\',\''.$path.'\',\''.$path_log.'\')"><span class="fa fa-chevron-circle-down"></a>
+			  		<a href="#" onClick="viewCode_2(event,\'emtry.php\',\''.$key_div.'\')"><span class="fa fa-chevron-circle-up"></span></a>
 			  		</th>';
 			  echo '<th style=""><textarea  class="form-control" 
 			  		id="'.$str_note.'"  

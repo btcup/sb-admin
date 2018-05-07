@@ -10,7 +10,7 @@
 <span class="text-info">Code file.</span>
 <textarea class="form-control" style=" width: 800px; height: 500px; margin: auto;">
 <?
-$strFileName = $_POST['path'];
+$strFileName = str_replace("@","\\",$_POST['path']);
 $objFopen = fopen($strFileName, 'r');
 if ($objFopen) {
 while (!feof($objFopen)) {

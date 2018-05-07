@@ -2,7 +2,6 @@
 <html>
 <head>
 
-  <script src="js/loadForm.js"></script>
 <title>Untitled Document</title>
 </head>
 
@@ -16,10 +15,12 @@ if(isset($_POST['key_year_subject'])){
     $key_year_subject = $_POST['key_year_subject'];
     $sub_semester = $_POST['sub_semester'];
     $numofexam = $_POST['num'];
+    $round = $_POST['round'];
 }else{
     $key_year_subject = $_GET['key_year_subject'];
     $sub_semester = $_GET['sub_semester'];
     $numofexam = $_GET['num'];
+    $round = $_GET['round'];
 }
 
 
@@ -38,12 +39,15 @@ if(isset($_POST['key_year_subject'])){
 			$rowsubject = mysqli_fetch_assoc(mysqli_query($database,$sql));
 			$y_se_s .= $rowsubject['id_subject']." ".$rowsubject['name_subject']; //   year/semester/subject
 ?>
-<div id="mainUser" class="container" style="background-color: white;">
+<div class="card-header">
+    <a class="fa fa-table"> จัดรอบการสอบปฎิบัติ</a>
+</div>
+<div id="mainUser" class="container" >
 <br>
 <p>รายวิชา: <? echo $y_se_s; ?></p>
 <br><br>
 <div style="width: 800px; margin: auto;">
-<a href="#" title="ย้อนกลับ" onClick="loadSetPExam('formFirstRound.php','mainUser','<? echo $key_year_subject; ?>')" ><span class="fa fa-arrow-left"></span>BACK</span></a>
+<a href="#" title="ย้อนกลับ" onClick="reloadPage_2('formFirstRound.php','mainUser','<? echo $key_year_subject; ?>')" ><span class="fa fa-arrow-left"></span>BACK</span></a>
 </div>
 <table class="table table-striped" style="width: 900px; margin: auto;">
         <thead >
@@ -59,7 +63,7 @@ if(isset($_POST['key_year_subject'])){
           </tr>
           <?
 		  		$sql = "SELECT * FROM round_exam WHERE key_year_subject = '$key_year_subject' and sub_semester = '$sub_semester' 
-                  and numofexam = '$numofexam' 
+                  and numofexam = '$numofexam' and round_number = '$round' 
                   ORDER BY date,time_start,room";
           $result = mysqli_query($database,$sql);
           while($row = mysqli_fetch_array($result))
@@ -90,7 +94,7 @@ if(isset($_POST['key_year_subject'])){
               echo '<td style="text-align: center;">
                   <ol class="breadcrumb">
                   <div id="HighJa">
-				<li class="IL"><a href="#" onClick="editRound(\'editRound.php\',\'mainUser\',\''.$key_year_subject.'\',\''.$key_round.'\')" title="ดูนิสิตในห้องสอบ"><span class="fa fa-user"></span></a></li>
+				<li class="IL"><a href="#" onClick="editRound2(\'editRound.php\',\'mainUser\',\''.$key_year_subject.'\',\''.$key_round.'\',\''.$numofexam.'\')" title="ดูนิสิตในห้องสอบ"><span class="fa fa-user"></span></a></li>
                   <li class="IL"><a href="php/exportRound.php?key_round='.$key_round.'"  title="Export" ><span class="fa fa-download"></span></a></li>
                   </div>
                   </ol>

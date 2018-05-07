@@ -33,12 +33,12 @@ if ($sub_semester == "midterm") {
     <form class="form-inline" role="form">
         <div class="form-group">
             <label for="txset">จำนวนชุดข้อสอบ: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txset"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txset"
                    placeholder="กรุณากรอกจำนวนชุด">
         </div>
         <div class="form-group">
             <label for="">จำนวนส่วน/ชุด: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txarticle"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txarticle"
                    placeholder="กรุณากรอกจำนวนส่วน/ชุด">
         </div>
         <input type="button" id="sbset" name="sbset" value="ตกลง"
@@ -68,12 +68,12 @@ if ($sub_semester == "midterm") {
     <form class="form-inline" role="form">
         <div class="form-group">
             <label for="txset">จำนวนชุดข้อสอบ: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txset"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txset"
                    placeholder="กรุณากรอกจำนวนชุด">
         </div>
         <div class="form-group">
             <label for="">จำนวนส่วน/ชุด: </label>
-            <input type="text" onChange="chkNum3(this,'')" class="form-control" id="txarticle"
+            <input type="text" onChange="chkNum3_2(this,'')" class="form-control" id="txarticle"
                    placeholder="กรุณากรอกจำนวนส่วน/ชุด">
         </div>
         <input type="button" id="sbset" name="sbset" value="ตกลง"

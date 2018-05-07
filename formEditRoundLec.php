@@ -53,7 +53,7 @@ $y_se_s .= $rowsubject['id_subject']." ".$rowsubject['name_subject']; //   year/
 <div id="mainUser" class="container" style="background-color: lightblue;">
     <p>จัดรอบการสอบ: <? echo $y_se_s." ".$sub_semester; ?></p>
     <br>
-    <a href="#" title="ย้อนกลับ" onClick="loadSetPExam('formFirstRoundLec.php','mainUser','<? echo $key_year_subject; ?>')">
+    <a href="#" title="ย้อนกลับ" onClick="reloadPage_2('formFirstRoundLec.php','mainUser','<? echo $key_year_subject; ?>')">
         <span class="glyphicon glyphicon-arrow-left">BACK</span></a>
     <br>
     <label>วันที่สอบ: <span class="text-info"><? echo $date; ?></span></label>
@@ -94,14 +94,14 @@ $y_se_s .= $rowsubject['id_subject']." ".$rowsubject['name_subject']; //   year/
             echo '<td style=" text-align: center;">'.$round_number.'</td>';
             echo '<td style=" text-align: center;">'.$time_start.'</td>';
             echo '<td style=" text-align: center;">'.$time_end.'</td>';
-            echo '<td style=" text-align: center;"><a href="#" onClick="showRoomInRound(\'showRoomInRound.php\',\'mainUser\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')"
+            echo '<td style=" text-align: center;"><a href="#" onClick="showRoomInRound_2(\'showRoomInRoundLec.php\',\'mainUser\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')"
 			  		>'.$num_room.'</a></td>';
             echo '<td style=" text-align: center;">
 			        <ol class="breadcrumb">
-			        <li><a href="#" onClick="deleteManualRound(\'php/deleteManualRound.php\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')" title="ลบ">
+			        <li><a href="#" onClick="deleteManualRound_2(\'php/deleteManualRound.php\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')" title="ลบ">
 				   		<span class="glyphicon glyphicon-trash"></span></a></li>
-			  	   	<li><a href="#" onClick="showRoomInRound(\'editManualRound.php\',\'editManualRound\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')" title="แก้ไข"><span class="glyphicon glyphicon-edit"></span></a></li>
-			  	   	<li><a href="#" title="เข้าไปดูแล้วแก้ไข" onClick="showRoomInRound(\'showRoomInRound.php\',\'mainUser\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')"><span class="glyphicon glyphicon-arrow-right"></a></li>
+			  	   	<li><a href="#" onClick="showRoomInRound_2(\'editManualRound.php\',\'editManualRound\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')" title="แก้ไข"><span class="glyphicon glyphicon-edit"></span></a></li>
+			  	   	<li><a href="#" title="เข้าไปดูแล้วแก้ไข" onClick="showRoomInRound_2(\'showRoomInRoundLec.php\',\'mainUser\',\''.$key_year_subject.'\',\''.$sub_semester.'\',\''.$date.'\',\''.$round_number.'\')"><span class="glyphicon glyphicon-arrow-right"></a></li>
 		  		    </ol>
 				   </td>';
             echo '</tr>';
@@ -115,26 +115,16 @@ $y_se_s .= $rowsubject['id_subject']." ".$rowsubject['name_subject']; //   year/
     <P>เพิ่มรอบการสอบ</P>
     <form class="form-inline" role="form">
         <label>เริ่มเวลา: </label>
-        <input type="text" onChange="chkTime(this)" id="time_start" class="form-control" placeholder="กรุณากรอกเวลาเริ่ม" style="width: 150px;">
+        <input type="text" onChange="chkTime_2(this)" id="time_start" class="form-control" placeholder="กรุณากรอกเวลาเริ่ม" style="width: 150px;">
         <label>หมดเวลา: </label>
-        <input type="text" onChange="chkTime(this)" id="time_end" class="form-control" placeholder="กรุณากรอกเวลาจบ" style="width: 150px;">
+        <input type="text" onChange="chkTime_2(this)" id="time_end" class="form-control" placeholder="กรุณากรอกเวลาจบ" style="width: 150px;">
 
         <input type="button" id="btedit" class="btn btn-info" value="เพิ่มข้อมูล" style="width: 150px;"
-               onClick="addManualRound('php/addManualRound.php','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $date; ?>')">
+               onClick="addManualRound_2('php/addManualRound.php','<? echo $key_year_subject; ?>','<? echo $sub_semester; ?>','<? echo $date; ?>')">
     </form>
     <br><br><br><br>
     <br><br><br><br>
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Page level plugin JavaScript-->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
-    <!-- Custom scripts for this page-->
-    <script src="js/sb-admin-charts.min.js"></script>
+
     <style>
         .label-info {
             background-color: #ffffff;

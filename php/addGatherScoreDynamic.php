@@ -1,6 +1,7 @@
 <?
 include("config/connectDB.php");
-include ("addToGather.php");
+include("addToGather.php");
+
 $key_year_subject = $_POST['key_year_subject'];
 $full_score = $_POST['fullscore'];
 $namescore = $_POST['namescore'];
@@ -16,16 +17,8 @@ $result_score = mysqli_query($database,$sql);
 while($row_score = mysqli_fetch_assoc($result_score)){ $key_set_gather = $row_score['key_set_gather']; }
 addToGatherDynamic($key_set_gather,$key_year_subject);
 
-echo '<script language="javascript">';
-echo 'alert("เพิ่มข้อมูลแล้ว")';
-echo '</script>';
+
 
 ?>
-<script>
-
-
-
-
-    window.history.go(-1); //คำสั่งย้อนหน้ากลับ
-</script>
+<? echo "กำหนดคะแนนเก็บสำเร็จ"?>
 
